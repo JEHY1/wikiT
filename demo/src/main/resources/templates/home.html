@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        legend {
+            height: 2000px
+        }
+    </style>
 </head>
 <body>
     <h1 th:text="${email} + ' welcome'"></h1>
     <h1>test home page</h1>
+
+<div>
+    <fieldset style="height=1000px">
+        <div>
+            <input type="text" id="groupName" placeholder="groupName">
+            <input type="hidden" id="constructor" th:value="${email}">
+            <button type="button" id="createGroup-btn">그룹 생성하기</button>
+        </div>
+
+    </fieldset>
+</div>
+    <script src="/js/group.js"></script>
 </body>
 </html>
