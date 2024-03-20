@@ -17,3 +17,5 @@ if(createGroupButton){
         })
     })
 }
+
+const moveGroupButton = document.getElementById()

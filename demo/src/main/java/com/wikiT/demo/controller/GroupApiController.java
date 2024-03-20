@@ -22,4 +22,6 @@ public class GroupApiController {
         return ResponseEntity.status(HttpStatus.CREATED)
                         .body(groupService.submit(request));
     }
+
+
 }

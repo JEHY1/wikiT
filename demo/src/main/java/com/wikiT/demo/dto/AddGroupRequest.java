@@ -19,10 +19,11 @@ public class AddGroupRequest {
                 .build();
     }
 
-    public Group toEntityGroup(){
+    public Group toEntityGroup(Long groupMakerId){
         return Group.builder()
                 .groupName(groupName)
                 .member(constructor)
+                .groupMakerId(groupMakerId)
                 .build();
     }
 
