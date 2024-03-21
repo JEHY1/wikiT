@@ -45,6 +45,26 @@ if(inviteGroupButton){
     });
 }
 
+const exitButton = document.getElementById('exit-btn')
+
+if(exitButton){
+    exitButton.addEventListener('click', () => {
+        fetch(`/api/exit`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                groupId: document.getElementById('groupId').value
+            })
+        }).then(() => {
+            alert('그룹을 탈퇴하였습니다.');
+            location.replace('/home');
+        });
+    });
+}
+
+
 function httpRequest(method, url, body, success, fail){
     fetch(url, {
         method: method,

@@ -13,14 +13,26 @@
     <p th:text="${member.memberName}"></p>
 </div>
 
-<div>
-    <h1>그룹에 초대하기</h1>
-    <input type="text" id="inviteeEmail">
-    <input type="hidden" id="groupId" th:value="${groupId}">
-    <input type="hidden" id="groupName" th:value="${groupName}">
-    <input type="hidden" id="inviterEmail" th:value="${inviterEmail}">
-    <button type = button id="invite-btn">invite</button>
-</div>
+
+    <div>
+
+
+        <div>
+            <h1>그룹에 초대하기</h1>
+            <input type="hidden" id="groupId" th:value="${groupId}">
+            <input type="text" id="inviteeEmail">
+            <input type="hidden" id="groupName" th:value="${groupName}">
+            <input type="hidden" id="inviterEmail" th:value="${inviterEmail}">
+            <button type = button id="invite-btn">invite</button>
+        </div>
+
+            <h1>그룹 나가기</h1>
+            <button th:if="!${isConstructor}" type="button" id="exit-btn">그룹 탈퇴</button>
+            <button th:if="${isConstructor}" type="button" id="remove-btn">그룹 삭제</button>
+        </div>
+    </div>
+
+
     <script src="/js/group.js"></script>
 </body>
 </html>

@@ -29,6 +29,9 @@ public class GroupViewController {
         model.addAttribute("members", members);
         model.addAttribute("groupName", groupService.findGroupName(groupId));
         model.addAttribute("inviterEmail", principal.getName());
+        model.addAttribute("isConstructor", groupService.findConstructor(groupId).equals(principal.getName()));
+
+
         return "groupPage";
     }
 

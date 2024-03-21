@@ -92,4 +92,17 @@ public class GroupService {
     public void denied(Long messageId){
         inviteMessageRepository.deleteById(messageId);
     }
+
+    public void exit(Long groupMakerId, String member){
+        Group group = groupRepository.findByGroupMakerIdAndMember(groupMakerId, member)
+                        .orElseThrow(() -> new IllegalArgumentException("not found Group"));
+        groupRepository.delete(group);
+    }
+
+    public String findConstructor(Long groupMakerId){
+        GroupMaker group = groupMakerRepository.findById(groupMakerId)
+                .orElseThrow(() -> new IllegalArgumentException("not found GroupMaker"));
+
+        return group.getConstructor();
+    }
 }
