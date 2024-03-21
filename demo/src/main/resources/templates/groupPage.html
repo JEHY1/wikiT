@@ -7,5 +7,10 @@
 <body>
     <h1>welcome</h1>
     <h1 th:text="${groupId} + ' group 에 오신걸 환영합니다.'"></h1>
+
+<h1>현재 그룹에 포함된 맴버들</h1>
+<div th:each="member:${members}">
+    <p th:text="${member.memberName}"></p>
+</div>
 </body>
 </html>

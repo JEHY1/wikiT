@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
     Optional<List<Group>> findByMember(String member);
+    Optional<List<Group>> findByGroupMakerId(Long groupMakerId);
 }

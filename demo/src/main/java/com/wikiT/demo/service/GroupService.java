@@ -28,4 +28,9 @@ public class GroupService {
         return groupRepository.findByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("not found member"));
     }
+
+    public List<Group> findByGroupMakerId(Long groupMakerId){
+        return groupRepository.findByGroupMakerId(groupMakerId)
+                .orElseThrow(() -> new IllegalArgumentException("not found group"));
+    }
 }

@@ -1,0 +1,1 @@
+--INSERT INTO article (id, group_id, Group_name, member) VALUES (1, 1, 'a', '123@123')
