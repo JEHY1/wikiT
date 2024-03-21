@@ -1,6 +1,7 @@
 package com.wikiT.demo.controller;
 
 import com.wikiT.demo.dto.GroupMemberViewResponse;
+import com.wikiT.demo.dto.InviteRequest;
 import com.wikiT.demo.service.GroupService;
 import com.wikiT.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -25,7 +28,14 @@ public class GroupViewController {
                 .map(GroupMemberViewResponse::new)
                 .toList();
         model.addAttribute("members", members);
+        model.addAttribute("groupName", groupService.findGroupName(groupId));
 
         return "groupPage";
     }
+
+//    @PostMapping("/invite")
+//    public String invite(@RequestBody InviteRequest request){
+//        groupService.invite(request);
+//        return "redirect:/group/{groupId}";
+//    }
 }

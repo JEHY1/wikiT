@@ -15,6 +15,6 @@ public class GroupButtonViewResponse {
 
     public GroupButtonViewResponse(Group group){
         this.GroupName = group.getGroupName();
-        this.GroupId = group.getId();
+        this.GroupId = group.getGroupMakerId();
     }
 }
