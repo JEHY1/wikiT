@@ -9,11 +9,13 @@ import lombok.Setter;
 @Setter
 public class InviteMessageViewResponse {
 
+    private Long messageId;
     private Long groupId;
     private String groupName;
     private String inviterEmail;
 
     public InviteMessageViewResponse(InviteMessage inviteMessage){
+        this.messageId = inviteMessage.getId();
         this.groupId = inviteMessage.getGroupId();
         this.groupName = inviteMessage.getGroupName();
         this.inviterEmail = inviteMessage.getInviterEmail();

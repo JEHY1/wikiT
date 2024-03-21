@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface InviteMessageRepository extends JpaRepository<InviteMessage, Long> {
 
     Optional<List<InviteMessage>> findByInviteeEmail(String inviteeEmail);
-    Optional<InviteMessage> findByGroupId(Long groupId);
+    Optional<InviteMessage> findByGroupIdAndInviteeEmail(Long groupId, String inviteeEmail);
 }

@@ -47,7 +47,7 @@ public class GroupService {
 
     public InviteMessage invite(InviteRequest request){
 
-        if(duplicateMessage(request.getGroupId())){
+        if(duplicateMessage(request.getGroupId(), request.getInviteeEmail())){
             throw new IllegalArgumentException("duplicate");
         }
         else{
@@ -65,12 +65,27 @@ public class GroupService {
                 .orElseThrow(() -> new IllegalArgumentException("no mails"));
     }
 
-    public Boolean duplicateMessage(Long groupId){
-        if(inviteMessageRepository.findByGroupId(groupId).isEmpty()){
-            return false;
-        }
-        else{
+    public Boolean duplicateMessage(Long groupId, String inviteeEmail){
+        if(!inviteMessageRepository.findByGroupIdAndInviteeEmail(groupId, inviteeEmail).isEmpty() || !groupRepository.findByGroupMakerIdAndMember(groupId, inviteeEmail).isEmpty()){
             return true;
         }
+        else{
+            return false;
+        }
+    }
+
+    public Group accept(Long messageId){
+        InviteMessage message = inviteMessageRepository.findById(messageId)
+                .orElseThrow(() -> new IllegalArgumentException("not found messageId"));
+
+        Group group = groupRepository.save(Group.builder()
+                .groupMakerId(message.getGroupId())
+                .groupName(message.getGroupName())
+                .member(message.getInviteeEmail())
+                .build()
+        );
+        inviteMessageRepository.deleteById(messageId);
+
+        return group;
     }
 }

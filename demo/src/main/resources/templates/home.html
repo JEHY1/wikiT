@@ -31,6 +31,9 @@
                 <p>초대 현황</p>
                 <div th:each="message : ${messages}">
                     <p th:text="${message.inviterEmail} + ' 이' + ${message.groupName} + ' 에 초대하였습니다.'"></p>
+                    <form th:action="'/api/accept/' + ${message.messageId}" method="POST">
+                        <button type="submit">수락</button>
+                    </form>
                 </div>
             </div>
         </div>

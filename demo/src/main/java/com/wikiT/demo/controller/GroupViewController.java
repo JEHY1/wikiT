@@ -1,5 +1,6 @@
 package com.wikiT.demo.controller;
 
+import com.wikiT.demo.domain.Group;
 import com.wikiT.demo.dto.GroupMemberViewResponse;
 import com.wikiT.demo.dto.InviteRequest;
 import com.wikiT.demo.service.GroupService;
@@ -32,6 +33,13 @@ public class GroupViewController {
         model.addAttribute("groupName", groupService.findGroupName(groupId));
         model.addAttribute("inviterEmail", principal.getName());
         return "groupPage";
+    }
+
+    @PostMapping("/api/accept/{messageId}")
+    public String accept(@PathVariable Long messageId){
+        Group group = groupService.accept(messageId);
+
+        return "redirect:/group/" + group.getGroupMakerId();
     }
 
 }
