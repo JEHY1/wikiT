@@ -1,7 +1,7 @@
 package com.wikiT.demo.controller;
 
-import com.wikiT.demo.domain.Group;
 import com.wikiT.demo.domain.GroupMaker;
+import com.wikiT.demo.domain.InviteMessage;
 import com.wikiT.demo.dto.AddGroupRequest;
 import com.wikiT.demo.dto.InviteRequest;
 import com.wikiT.demo.service.GroupService;
@@ -28,11 +28,13 @@ public class GroupApiController {
     }
 
     @PostMapping("/api/invite")
-    public ResponseEntity<Group> invite(@RequestBody InviteRequest request){
+    public ResponseEntity<InviteMessage> invite(@RequestBody InviteRequest request){
 
-        Group group = groupService.invite(request);
+
+
+        InviteMessage inviteMessage = groupService.invite(request);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(group);
+                .body(inviteMessage);
     }
 
 

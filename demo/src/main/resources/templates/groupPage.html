@@ -15,9 +15,10 @@
 
 <div>
     <h1>그룹에 초대하기</h1>
-    <input type="text" id="email">
+    <input type="text" id="inviteeEmail">
     <input type="hidden" id="groupId" th:value="${groupId}">
     <input type="hidden" id="groupName" th:value="${groupName}">
+    <input type="hidden" id="inviterEmail" th:value="${inviterEmail}">
     <button type = button id="invite-btn">invite</button>
 </div>
     <script src="/js/group.js"></script>

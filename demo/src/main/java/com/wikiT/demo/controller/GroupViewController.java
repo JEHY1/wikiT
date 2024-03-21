@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -21,7 +22,7 @@ public class GroupViewController {
     private final GroupService groupService;
 
     @GetMapping("/group/{groupId}")
-    public String moveGroup(@PathVariable Long groupId, Model model){
+    public String moveGroup(@PathVariable Long groupId, Principal principal, Model model){
 
         model.addAttribute("groupId", groupId);
         List<GroupMemberViewResponse> members = groupService.findByGroupMakerId(groupId).stream()
@@ -29,13 +30,8 @@ public class GroupViewController {
                 .toList();
         model.addAttribute("members", members);
         model.addAttribute("groupName", groupService.findGroupName(groupId));
-
+        model.addAttribute("inviterEmail", principal.getName());
         return "groupPage";
     }
 
-//    @PostMapping("/invite")
-//    public String invite(@RequestBody InviteRequest request){
-//        groupService.invite(request);
-//        return "redirect:/group/{groupId}";
-//    }
 }

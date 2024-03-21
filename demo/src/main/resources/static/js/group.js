@@ -30,14 +30,15 @@ if(inviteGroupButton){
         }
 
         function fail() {
-            alert('초대 실패(email을 확인하세요).');
+            alert('초대 실패(email을 확인하세요, 중복 초대).');
             location.replace('/group/' + document.getElementById('groupId').value);
         }
 
         body = JSON.stringify({
             groupName: document.getElementById('groupName').value,
-            groupMakerId: document.getElementById('groupId').value,
-            email: document.getElementById('email').value
+            groupId: document.getElementById('groupId').value,
+            inviterEmail: document.getElementById('inviterEmail').value,
+            inviteeEmail: document.getElementById('inviteeEmail').value
        });
 
         httpRequest('POST', `/api/invite`,body, success, fail);

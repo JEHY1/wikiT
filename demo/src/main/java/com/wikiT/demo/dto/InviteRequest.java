@@ -1,6 +1,6 @@
 package com.wikiT.demo.dto;
 
-import com.wikiT.demo.domain.Group;
+import com.wikiT.demo.domain.InviteMessage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,14 +9,16 @@ import lombok.Setter;
 public class InviteRequest {
 
     private String groupName;
-    private Long groupMakerId;
-    private String email;
+    private Long groupId;
+    private String inviterEmail;
+    private String inviteeEmail;
 
-    public Group toEntity(){
-        return Group.builder()
+    public InviteMessage toEntity(){
+        return InviteMessage.builder()
                 .groupName(groupName)
-                .groupMakerId(groupMakerId)
-                .member(email)
+                .groupId(groupId)
+                .inviterEmail(inviterEmail)
+                .inviteeEmail(inviteeEmail)
                 .build();
     }
 }

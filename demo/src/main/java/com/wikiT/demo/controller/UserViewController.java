@@ -2,6 +2,7 @@ package com.wikiT.demo.controller;
 
 
 import com.wikiT.demo.dto.GroupButtonViewResponse;
+import com.wikiT.demo.dto.InviteMessageViewResponse;
 import com.wikiT.demo.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import java.util.List;
 public class UserViewController {
 
     private final GroupService groupService;
+
 
     @GetMapping("/login")
     public String login(){return "login";}
@@ -33,6 +35,12 @@ public class UserViewController {
                 .toList();
         model.addAttribute("groups", groups);
 
+        List<InviteMessageViewResponse> messages = groupService.findMessage(principal.getName())
+                .stream()
+                .map(InviteMessageViewResponse::new)
+                .toList();
+
+        model.addAttribute("messages", messages);
         return "home";
     }
 }

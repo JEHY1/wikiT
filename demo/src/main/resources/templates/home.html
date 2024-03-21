@@ -27,6 +27,12 @@
                     <button type="submit" th:text="${group.groupName}"></button>
                 </form>
             </div>
+            <div>
+                <p>초대 현황</p>
+                <div th:each="message : ${messages}">
+                    <p th:text="${message.inviterEmail} + ' 이' + ${message.groupName} + ' 에 초대하였습니다.'"></p>
+                </div>
+            </div>
         </div>
     </fieldset>
 </div>
