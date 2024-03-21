@@ -42,13 +42,7 @@ public class GroupApiController {
                 .body(inviteMessage);
     }
 
-//    @PostMapping("/api/accept/{messageId}")
-//    public ResponseEntity<Group> accept(@PathVariable Long messageId){
-//
-//        return ResponseEntity.status(HttpStatus.CREATED)
-//                .body(groupService.accept(messageId));
-//
-//    }
+
 
 
 

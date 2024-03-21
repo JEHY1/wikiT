@@ -34,10 +34,14 @@
                     <form th:action="'/api/accept/' + ${message.messageId}" method="POST">
                         <button type="submit">수락</button>
                     </form>
+                    <form th:action="'/api/denied/' + ${message.messageId}" method="POST">
+                        <button type="submit">거절</button>
+                    </form>
                 </div>
             </div>
         </div>
     </fieldset>
+    <button type="button" class="btn btn-secondary" onclick="location.href='/logout'">로그아웃</button>
 </div>
     <script src="/js/group.js"></script>
 </body>

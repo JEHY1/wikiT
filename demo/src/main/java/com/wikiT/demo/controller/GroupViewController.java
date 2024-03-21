@@ -8,10 +8,7 @@ import com.wikiT.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -40,6 +37,13 @@ public class GroupViewController {
         Group group = groupService.accept(messageId);
 
         return "redirect:/group/" + group.getGroupMakerId();
+    }
+
+    @PostMapping("/api/denied/{messageId}")
+    public String denied(@PathVariable Long messageId){
+
+        groupService.denied(messageId);
+        return "redirect:/home";
     }
 
 }

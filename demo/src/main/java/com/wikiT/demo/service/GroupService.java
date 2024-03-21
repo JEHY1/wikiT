@@ -88,4 +88,8 @@ public class GroupService {
 
         return group;
     }
+
+    public void denied(Long messageId){
+        inviteMessageRepository.deleteById(messageId);
+    }
 }
