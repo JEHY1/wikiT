@@ -30,12 +30,6 @@
         <button th:if="${isConstructor} and !${myEmail.equals(member.memberName)}" type="submit">추방</button>
     </form>
 
-
-
-
-
-
-
 </div>
 
 
@@ -48,7 +42,7 @@
             <input type="text" id="inviteeEmail">
             <input type="hidden" id="groupName" th:value="${groupName}">
             <input type="hidden" id="inviterEmail" th:value="${inviterEmail}">
-            <button type = button id="invite-btn">invite</button>
+            <button type ="button" id="invite-btn">invite</button>
         </div>
         <div>
             <h1>그룹 나가기</h1>
@@ -61,6 +55,18 @@
         <p th:text="${memberSpace} + ' 의 공간입니다.'"></p>
     </div>
 
+    <div>
+        <h1>글 등록 하기(내 공간, master(공유) 공간에만 가능)</h1>
+
+
+
+        <a th:if="${memberSpace.equals('master') || memberSpace.equals(inviterEmail)}" th:href="@{/newArticle?space={space}&groupId={groupId}(space=${memberSpace}, groupId=${groupId})}" class="btn btn-primary">글 등록</a>
+    </div>
+
+
+
+
+    <input type="hidden" id="articleId">
     <input type="hidden" id="memberSpace" th:value="${memberSpace}">
     <script src="/js/group.js"></script>
 </body>

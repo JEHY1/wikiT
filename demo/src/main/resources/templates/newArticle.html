@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>새로운 Article 작성 페이지</h1>
+<h1 th:text="${article.space} + ' 의 공간'"></h1>
+<h1 th:text="'현재 작성자 : ' + ${article.author}"></h1>
+<h1 th:text="'현재 그룹 번호 : ' + ${article.groupId}"></h1>
+<input type="text" placeholder="title" th:text="${article.title}" id="title">
+<textarea placeholder="contenet" th:text="${article.content}" id="content"></textarea>
+
+<button th:if="${article.title == null}" type="button">등록</button>
+<button th:if="${article.title != null}" type="button">수정</button>
+
+
+</body>
+</html>

@@ -62,7 +62,7 @@ public class GroupViewController {
         System.err.println("run expel");
         groupService.expel(request);
 
-        return "redirect:/group/" + request.getGroupId();
+        return "redirect:/group/" + request.getGroupId() + "?memberEmail=master";
     }
 
 }
