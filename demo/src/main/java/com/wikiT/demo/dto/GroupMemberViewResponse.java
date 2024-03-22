@@ -9,6 +9,7 @@ import lombok.Setter;
 public class GroupMemberViewResponse {
 
     private String memberName;
+    private Long memberId;
 
     public GroupMemberViewResponse(Group group){
         this.memberName = group.getMember();

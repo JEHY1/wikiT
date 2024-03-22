@@ -26,12 +26,12 @@ if(inviteGroupButton){
 
         function success() {
                 alert('초대 완료되었습니다.');
-                location.replace('/group/' + document.getElementById('groupId').value);
+                location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
         }
 
         function fail() {
             alert('초대 실패(email을 확인하세요, 중복 초대).');
-            location.replace('/group/' + document.getElementById('groupId').value);
+            location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
         }
 
         body = JSON.stringify({

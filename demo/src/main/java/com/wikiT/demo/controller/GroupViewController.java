@@ -4,6 +4,7 @@ import com.wikiT.demo.domain.Group;
 import com.wikiT.demo.dto.GroupMemberViewResponse;
 import com.wikiT.demo.dto.InviteRequest;
 import com.wikiT.demo.dto.MemberExpelRequest;
+import com.wikiT.demo.dto.MoveRequest;
 import com.wikiT.demo.service.GroupService;
 import com.wikiT.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class GroupViewController {
     private final GroupService groupService;
 
     @GetMapping("/group/{groupId}")
-    public String moveGroup(@PathVariable Long groupId, Principal principal, Model model){
+    public String moveGroup(@PathVariable Long groupId, MoveRequest request, Principal principal, Model model){
 
         model.addAttribute("groupId", groupId);
         List<GroupMemberViewResponse> members = groupService.findByGroupMakerId(groupId).stream()
@@ -32,16 +33,20 @@ public class GroupViewController {
         model.addAttribute("inviterEmail", principal.getName());
         model.addAttribute("isConstructor", groupService.findConstructor(groupId).equals(principal.getName()));
         model.addAttribute("myEmail", principal.getName());
+        model.addAttribute("memberSpace", request.getMemberEmail());
+
 
 
         return "groupPage";
     }
 
     @PostMapping("/api/accept/{messageId}")
-    public String accept(@PathVariable Long messageId){
+    public String accept(@PathVariable Long messageId, MoveRequest request){
         Group group = groupService.accept(messageId);
 
-        return "redirect:/group/" + group.getGroupMakerId();
+        System.err.println(request.getMemberEmail());
+
+        return "redirect:/group/" + group.getGroupMakerId() + "?memberEmail=" + request.getMemberEmail();
     }
 
     @PostMapping("/api/denied/{messageId}")

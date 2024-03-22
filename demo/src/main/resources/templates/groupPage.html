@@ -8,14 +8,28 @@
     <h1>welcome</h1>
     <h1 th:text="${groupId} + ' group 에 오신걸 환영합니다.'"></h1>
 
+
+    <form th:action="'/group/' + ${groupId}" method="get">
+        <input type="hidden" name="memberEmail" value="master">
+        <button th:if="!${memberSpace.equals('master')}" type="submit">공유 공간으로 이동</button>
+    </form>
+
+
 <h1>현재 그룹에 포함된 맴버들</h1>
 <div th:each="member:${members}">
     <p th:text="${member.memberName}"></p>
+    <form th:action="'/group/' + ${groupId}" method="get">
+        <input type="hidden" name="memberEmail" th:value="${member.memberName}">
+        <button type="submit" th:text="${member.memberName}"></button>
+    </form>
+
+
     <form action="/api/expel" method="post">
         <input type="hidden" name="groupId" th:value="${groupId}">
         <input type="hidden" name="UserEmail" th:value="${member.memberName}">
         <button th:if="${isConstructor} and !${myEmail.equals(member.memberName)}" type="submit">추방</button>
     </form>
+
 
 
 
@@ -43,7 +57,11 @@
         </div>
     </div>
 
+    <div>
+        <p th:text="${memberSpace} + ' 의 공간입니다.'"></p>
+    </div>
 
+    <input type="hidden" id="memberSpace" th:value="${memberSpace}">
     <script src="/js/group.js"></script>
 </body>
 </html>

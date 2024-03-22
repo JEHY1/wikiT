@@ -24,6 +24,7 @@
             <p>그룹 이동하기</p>
             <div th:each="group : ${groups}">
                 <form th:action="'/group/' + ${group.groupId}" method="GET">
+                    <input type="hidden" name="memberEmail" value="master">
                     <button type="submit" th:text="${group.groupName}"></button>
                 </form>
             </div>
@@ -32,6 +33,7 @@
                 <div th:each="message : ${messages}">
                     <p th:text="${message.inviterEmail} + ' 이' + ${message.groupName} + ' 에 초대하였습니다.'"></p>
                     <form th:action="'/api/accept/' + ${message.messageId}" method="POST">
+                        <input type="hidden" name="memberEmail" value="master">
                         <button type="submit">수락</button>
                     </form>
                     <form th:action="'/api/denied/' + ${message.messageId}" method="POST">
