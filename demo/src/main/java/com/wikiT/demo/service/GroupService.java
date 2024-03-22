@@ -78,13 +78,16 @@ public class GroupService {
         InviteMessage message = inviteMessageRepository.findById(messageId)
                 .orElseThrow(() -> new IllegalArgumentException("not found messageId"));
 
+        inviteMessageRepository.deleteById(messageId);
+        groupMakerRepository.findById(message.getGroupId())
+                .orElseThrow(() -> new IllegalArgumentException("not found Group"));
+
         Group group = groupRepository.save(Group.builder()
                 .groupMakerId(message.getGroupId())
                 .groupName(message.getGroupName())
                 .member(message.getInviteeEmail())
                 .build()
         );
-        inviteMessageRepository.deleteById(messageId);
 
         return group;
     }
@@ -104,5 +107,20 @@ public class GroupService {
                 .orElseThrow(() -> new IllegalArgumentException("not found GroupMaker"));
 
         return group.getConstructor();
+    }
+
+    public void groupRemove(Long groupMakerId){
+        List<Group> groups = groupRepository.findByGroupMakerId(groupMakerId)
+                .orElseThrow(() -> new IllegalArgumentException("not found groupId"));
+
+        System.err.println("groupSize() : " + groups.size());
+
+        if(groups.size() == 1){
+            System.err.println("remove run");
+            System.err.println("groupMakerId : " + groups.get(0).getGroupMakerId());
+            groupMakerRepository.deleteById(groupMakerId);
+            groupRepository.delete(groups.get(0));
+
+        }
     }
 }

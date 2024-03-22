@@ -64,6 +64,25 @@ if(exitButton){
     });
 }
 
+const removeButton = document.getElementById('remove-btn')
+
+if(removeButton){
+    removeButton.addEventListener('click', () => {
+        fetch(`/api/remove`, {
+            method: 'DELETE',
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({
+                groupId: document.getElementById('groupId').value
+            })
+        }).then(() => {
+            alert('그룹을 삭제했습니다.');
+            location.replace('/home');
+        })
+    })
+}
+
 
 function httpRequest(method, url, body, success, fail){
     fetch(url, {

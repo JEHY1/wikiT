@@ -5,6 +5,7 @@ import com.wikiT.demo.domain.GroupMaker;
 import com.wikiT.demo.domain.InviteMessage;
 import com.wikiT.demo.dto.AddGroupRequest;
 import com.wikiT.demo.dto.ExitRequest;
+import com.wikiT.demo.dto.GroupRemoveRequest;
 import com.wikiT.demo.dto.InviteRequest;
 import com.wikiT.demo.service.GroupService;
 import com.wikiT.demo.service.UserService;
@@ -42,6 +43,16 @@ public class GroupApiController {
     public ResponseEntity<Void> exit(@RequestBody ExitRequest request, Principal principal){
 
         groupService.exit(request.getGroupId(), principal.getName());
+        return ResponseEntity.ok()
+                .build();
+    }
+
+    @DeleteMapping("/api/remove")
+    public ResponseEntity<Void> exit(@RequestBody GroupRemoveRequest request){
+
+        System.err.println("groupId : " + request.getGroupId());
+
+        groupService.groupRemove(request.getGroupId());
         return ResponseEntity.ok()
                 .build();
     }
