@@ -11,6 +11,17 @@
 <h1>현재 그룹에 포함된 맴버들</h1>
 <div th:each="member:${members}">
     <p th:text="${member.memberName}"></p>
+    <form action="/api/expel" method="post">
+        <input type="hidden" name="groupId" th:value="${groupId}">
+        <input type="hidden" name="UserEmail" th:value="${member.memberName}">
+        <button th:if="${isConstructor} and !${myEmail.equals(member.memberName)}" type="submit">추방</button>
+    </form>
+
+
+
+
+
+
 </div>
 
 
@@ -25,7 +36,7 @@
             <input type="hidden" id="inviterEmail" th:value="${inviterEmail}">
             <button type = button id="invite-btn">invite</button>
         </div>
-
+        <div>
             <h1>그룹 나가기</h1>
             <button th:if="!${isConstructor}" type="button" id="exit-btn">그룹 탈퇴</button>
             <button th:if="${isConstructor}" type="button" id="remove-btn">그룹 삭제</button>

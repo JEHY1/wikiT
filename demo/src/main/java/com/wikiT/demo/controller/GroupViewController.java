@@ -3,6 +3,7 @@ package com.wikiT.demo.controller;
 import com.wikiT.demo.domain.Group;
 import com.wikiT.demo.dto.GroupMemberViewResponse;
 import com.wikiT.demo.dto.InviteRequest;
+import com.wikiT.demo.dto.MemberExpelRequest;
 import com.wikiT.demo.service.GroupService;
 import com.wikiT.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class GroupViewController {
         model.addAttribute("groupName", groupService.findGroupName(groupId));
         model.addAttribute("inviterEmail", principal.getName());
         model.addAttribute("isConstructor", groupService.findConstructor(groupId).equals(principal.getName()));
+        model.addAttribute("myEmail", principal.getName());
 
 
         return "groupPage";
@@ -47,6 +49,15 @@ public class GroupViewController {
 
         groupService.denied(messageId);
         return "redirect:/home";
+    }
+
+    @PostMapping("/api/expel")
+    public String expel(MemberExpelRequest request){
+
+        System.err.println("run expel");
+        groupService.expel(request);
+
+        return "redirect:/group/" + request.getGroupId();
     }
 
 }

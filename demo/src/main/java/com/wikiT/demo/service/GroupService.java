@@ -5,6 +5,7 @@ import com.wikiT.demo.domain.GroupMaker;
 import com.wikiT.demo.domain.InviteMessage;
 import com.wikiT.demo.dto.InviteRequest;
 import com.wikiT.demo.dto.AddGroupRequest;
+import com.wikiT.demo.dto.MemberExpelRequest;
 import com.wikiT.demo.repository.GroupMakerRepository;
 import com.wikiT.demo.repository.GroupRepository;
 import com.wikiT.demo.repository.InviteMessageRepository;
@@ -122,5 +123,11 @@ public class GroupService {
             groupRepository.delete(groups.get(0));
 
         }
+    }
+
+    public void expel(MemberExpelRequest request){
+        Group group = groupRepository.findByGroupMakerIdAndMember(request.getGroupId(), request.getUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("not found group"));
+        groupRepository.delete(group);
     }
 }

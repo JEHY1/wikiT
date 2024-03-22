@@ -12,4 +12,6 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     Optional<List<Group>> findByGroupMakerId(Long groupMakerId);
 
     Optional<Group> findByGroupMakerIdAndMember(Long groupMakerId, String member);
+
+
 }
