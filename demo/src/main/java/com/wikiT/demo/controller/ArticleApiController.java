@@ -21,6 +21,8 @@ public class ArticleApiController {
     @PostMapping("/api/article")
     public ResponseEntity<Article> saveArticle(@RequestBody AddArticleRequest request){
 
+        System.err.println("run /api/article");
+
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(articleService.save(request));
     }

@@ -12,9 +12,15 @@
 <input type="text" placeholder="title" th:text="${article.title}" id="title">
 <textarea placeholder="contenet" th:text="${article.content}" id="content"></textarea>
 
-<button th:if="${article.title == null}" type="button">등록</button>
+<button th:if="${article.title == null}" type="button" id="createArticle-btn">등록</button>
+
 <button th:if="${article.title != null}" type="button">수정</button>
 
 
+<input type="hidden" id="groupId" th:value="${article.groupId}">
+<input type="hidden" id="author" th:value="${article.author}">
+<input type="hidden" id="space" th:value="${article.space}">
+
+<script src="/js/article.js"></script>
 </body>
 </html>
