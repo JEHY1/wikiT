@@ -6,6 +6,8 @@ import com.wikiT.demo.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
@@ -19,5 +21,10 @@ public class ArticleService {
     public Article findById(Long id){
         return articleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("not found articleId"));
+    }
+
+    public List<Article> findBySpaceAndGroupId(String space, Long groupId){
+        return articleRepository.findBySpaceAndGroupId(space, groupId)
+                .orElseThrow(() -> new IllegalArgumentException("not found Article"));
     }
 }

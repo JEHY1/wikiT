@@ -1,10 +1,8 @@
 package com.wikiT.demo.controller;
 
 import com.wikiT.demo.domain.Group;
-import com.wikiT.demo.dto.GroupMemberViewResponse;
-import com.wikiT.demo.dto.InviteRequest;
-import com.wikiT.demo.dto.MemberExpelRequest;
-import com.wikiT.demo.dto.MoveRequest;
+import com.wikiT.demo.dto.*;
+import com.wikiT.demo.service.ArticleService;
 import com.wikiT.demo.service.GroupService;
 import com.wikiT.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +18,7 @@ import java.util.List;
 public class GroupViewController {
 
     private final GroupService groupService;
+    private final ArticleService articleService;
 
     @GetMapping("/group/{groupId}")
     public String moveGroup(@PathVariable Long groupId, MoveRequest request, Principal principal, Model model){
@@ -35,6 +34,11 @@ public class GroupViewController {
         model.addAttribute("myEmail", principal.getName());
         model.addAttribute("memberSpace", request.getMemberEmail());
 
+        List<ArticleListViewResponse> articles = articleService.findBySpaceAndGroupId(request.getMemberEmail(), groupId)
+                .stream()
+                .map(ArticleListViewResponse::new)
+                .toList();
+        model.addAttribute("articles", articles);
 
 
         return "groupPage";

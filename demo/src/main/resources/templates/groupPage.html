@@ -63,6 +63,21 @@
         <a th:if="${memberSpace.equals('master') || memberSpace.equals(inviterEmail)}" th:href="@{/newArticle?space={space}&groupId={groupId}(space=${memberSpace}, groupId=${groupId})}" class="btn btn-primary">글 등록</a>
     </div>
 
+    <div>
+        <h1>글 목록</h1>
+        <div th:each="article:${articles}">
+            <h1>Article Id</h1>
+            <p th:text="${article.articleId}"></p>
+            <h1>제목</h1>
+            <p th:text="${article.title}"></p>
+            <h1>내용</h1>
+            <p th:text="${article.content}"></p>
+            <hr>
+        </div>
+
+    </div>
+
+
 
 
 
