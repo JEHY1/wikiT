@@ -72,6 +72,12 @@
             <p th:text="${article.title}"></p>
             <h1>내용</h1>
             <p th:text="${article.content}"></p>
+            <form action="/newArticle" method="get">
+                <input type="hidden" name="space" th:value="${memberSpace}">
+                <input type="hidden" name="groupId" th:value="${groupId}">
+                <input type="hidden" name="articleId" th:value="${article.articleId}">
+                <button type="submit">자세히 보기</button>
+            </form>
             <hr>
         </div>
 

@@ -17,6 +17,27 @@ if(createArticleButton){
         }).then(() => {
             alert('글 등록 성공');
             location.replace('/group/' + document.getElementById('groupId').value + '?memberEmail=' + document.getElementById('space').value);
-        })
-    })
+        });
+    });
+}
+
+const modifyArticleButton = document.getElementById('modifyArticle-btn');
+
+if(modifyArticleButton){
+    modifyArticleButton.addEventListener('click', () => {
+        fetch(`/api/article`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                articleId: document.getElementById('articleId').value,
+                title: document.getElementById('title').value,
+                content: document.getElementById('content').value
+            })
+        }).then(() => {
+            alert('글 수정 성공');
+            location.replace('/group/' + document.getElementById('groupId').value + '?memberEmail=' + document.getElementById('space').value);
+        });
+    });
 }

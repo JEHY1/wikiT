@@ -33,7 +33,7 @@ public class ArticleViewController {
 
         Article article = articleService.findById(request.getArticleId());
         model.addAttribute("article", new ArticleStatusViewResponse(article));
-        System.err.println("end");
+        model.addAttribute("myEmail", principal.getName());
 
         return "newArticle";
     }

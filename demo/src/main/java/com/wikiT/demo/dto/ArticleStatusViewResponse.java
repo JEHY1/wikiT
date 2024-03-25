@@ -26,6 +26,7 @@ public class ArticleStatusViewResponse {
         this.articleId = article.getId();
         this.groupId = article.getGroupId();
         this.author = article.getAuthor();
+        this.space = article.getSpace();
     }
 
     public ArticleStatusViewResponse(Long groupId, String space, String author){

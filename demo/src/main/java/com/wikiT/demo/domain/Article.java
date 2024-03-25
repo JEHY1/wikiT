@@ -54,4 +54,9 @@ public class Article {
         this.author = author;
         this.space = space;
     }
+
+    public void update(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
 }
