@@ -9,13 +9,20 @@
 <h1 th:text="${article.space} + ' 의 공간'"></h1>
 <h1 th:text="'현재 작성자 : ' + ${article.author}"></h1>
 <h1 th:text="'현재 그룹 번호 : ' + ${article.groupId}"></h1>
+<div th:if="${article.articleId != null}">
+    <h1 th:text="'작성자 : ' + ${article.author}"></h1>
+    <h1 th:text="'createdAt : ' + ${article.createdAt}"></h1>
+    <h1 th:text="'updatedAt : ' + ${article.updatedAt}"></h1>
+
+</div>
+
 <input type="text" placeholder="title" th:value="${article.title}" id="title">
 <textarea placeholder="contenet" th:text="${article.content}" id="content"></textarea>
 
 <button th:if="${article.title == null}" type="button" id="createArticle-btn">등록</button>
 
 <button th:if="${article.title != null && (article.space.equals('master') || article.space.equals(myEmail))} " type="button" id="modifyArticle-btn">수정</button>
-
+<button th:if="${article.title != null && (article.space.equals('master') || article.space.equals(myEmail))} " type="button" id="deleteArticle-btn">삭제</button>
 <input type="hidden" id="articleId" th:value="${article.articleId}">
 <input type="hidden" id="groupId" th:value="${article.groupId}">
 <input type="hidden" id="author" th:value="${article.author}">

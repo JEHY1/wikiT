@@ -2,6 +2,7 @@ package com.wikiT.demo.service;
 
 import com.wikiT.demo.domain.Article;
 import com.wikiT.demo.dto.AddArticleRequest;
+import com.wikiT.demo.dto.DeleteArticleRequest;
 import com.wikiT.demo.dto.UpdateArticleRequest;
 import com.wikiT.demo.repository.ArticleRepository;
 import jakarta.transaction.Transactional;
@@ -37,6 +38,10 @@ public class ArticleService {
 
         article.update(request.getTitle(), request.getContent());
         return article;
+    }
+
+    public void delete(DeleteArticleRequest request){
+        articleRepository.deleteById(request.getArticleId());
     }
 
 }

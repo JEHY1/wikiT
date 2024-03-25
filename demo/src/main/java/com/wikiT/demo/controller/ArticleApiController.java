@@ -3,6 +3,7 @@ package com.wikiT.demo.controller;
 import com.wikiT.demo.domain.Article;
 import com.wikiT.demo.dto.AddArticleRequest;
 import com.wikiT.demo.dto.ArticleStatusViewRequest;
+import com.wikiT.demo.dto.DeleteArticleRequest;
 import com.wikiT.demo.dto.UpdateArticleRequest;
 import com.wikiT.demo.service.ArticleService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,15 @@ public class ArticleApiController {
 
         return ResponseEntity.ok()
                 .body(articleService.update(request));
+    }
+
+    @DeleteMapping("/api/article")
+    public ResponseEntity<Void> deleteArticle(@RequestBody DeleteArticleRequest request){
+
+        articleService.delete(request);
+
+        return ResponseEntity.ok()
+                .build();
     }
 
 

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
@@ -18,6 +20,9 @@ public class ArticleStatusViewResponse {
     private Long groupId;
     private String author;
     private String space;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
 
 
     public ArticleStatusViewResponse(Article article){
@@ -27,6 +32,8 @@ public class ArticleStatusViewResponse {
         this.groupId = article.getGroupId();
         this.author = article.getAuthor();
         this.space = article.getSpace();
+        this.createdAt = article.getCreatedAt();
+        this.updatedAt = article.getUpdatedAt();
     }
 
     public ArticleStatusViewResponse(Long groupId, String space, String author){

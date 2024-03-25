@@ -41,3 +41,22 @@ if(modifyArticleButton){
         });
     });
 }
+
+const deleteArticleButton = document.getElementById('deleteArticle-btn');
+
+if(deleteArticleButton){
+    deleteArticleButton.addEventListener('click', () => {
+        fetch(`/api/article`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                articleId: document.getElementById('articleId').value
+            })
+        }).then(() => {
+            alert('글 삭제 성공');
+            location.replace('/group/' + document.getElementById('groupId').value + '?memberEmail=' + document.getElementById('space').value);
+        });
+    });
+}
