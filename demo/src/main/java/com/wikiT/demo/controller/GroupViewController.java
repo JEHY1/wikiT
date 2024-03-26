@@ -31,6 +31,7 @@ public class GroupViewController {
         model.addAttribute("members", members);
         model.addAttribute("groupName", groupService.findGroupName(groupId));
         model.addAttribute("inviterEmail", principal.getName());
+        model.addAttribute("constructor", groupService.findConstructor(groupId));
         model.addAttribute("isConstructor", groupService.findConstructor(groupId).equals(principal.getName()));
         model.addAttribute("myEmail", principal.getName());
         model.addAttribute("memberSpace", request.getMemberEmail());
@@ -40,6 +41,12 @@ public class GroupViewController {
                 .map(ArticleListViewResponse::new)
                 .toList();
         model.addAttribute("articles", articles);
+
+        List<GroupButtonViewResponse> groups = groupService.findByMember(principal.getName())
+                .stream()
+                .map(GroupButtonViewResponse::new)
+                .toList();
+        model.addAttribute("groups", groups);
 
 
         return "groupPage";

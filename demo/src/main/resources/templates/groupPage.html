@@ -6,7 +6,9 @@
 </head>
 <body>
     <h1>welcome</h1>
+    <button type="button" onclick="location.href='/home'">메인</button>
     <h1 th:text="${groupId} + ' group 에 오신걸 환영합니다.'"></h1>
+    <h1 th:text="'groupMaker : ' + ${constructor}"></h1>
 
 
     <form th:action="'/group/' + ${groupId}" method="get">
@@ -44,6 +46,17 @@
             <input type="hidden" id="inviterEmail" th:value="${inviterEmail}">
             <button type ="button" id="invite-btn">invite</button>
         </div>
+
+        <div>
+            <h1>그룹 목록</h1>
+            <div th:each="group:${groups}">
+                <form th:action="'/group/' + ${group.groupId}" method="get">
+                    <input type="hidden" name="memberEmail" value="master">
+                    <button type="submit" th:text="${group.groupName}"></button>
+                </form>
+            </div>
+        </div>
+
         <div>
             <h1>그룹 나가기</h1>
             <button th:if="!${isConstructor}" type="button" id="exit-btn">그룹 탈퇴</button>
@@ -82,10 +95,6 @@
         </div>
 
     </div>
-
-
-
-
 
     <input type="hidden" id="articleId">
     <input type="hidden" id="memberSpace" th:value="${memberSpace}">
