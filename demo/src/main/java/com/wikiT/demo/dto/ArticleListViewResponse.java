@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ArticleListViewResponse {
-    private final int SUMMARY_SIZE = 80;
+    private final int SUMMARY_SIZE = 50;
 
     private Long articleId;
     private String title;

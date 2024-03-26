@@ -4,31 +4,90 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        #{
+        *{
             padding: 0px;
             margin: 0px;
         }
 
+        .header{
+            height: 200px;
+            background: gray;
+        }
 
+        .navi{
+            width: 280px;
+            height: 1020px;
+            margin-top: 10px;
+            border-right: 1px gainsboro solid;
+            padding-left: 20px;
+        }
+
+        .makeGroup{
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px gainsboro solid;
+        }
+
+        .moveGroup{
+            padding-top: 5px;
+            padding-bottom: 20px;
+            border-bottom: 1px gainsboro solid;
+            height: 430px;
+        }
+
+        .inviteStatus{
+            padding-top: 5px;
+            padding-bottom: 20px;
+            border-bottom: 1px gainsboro solid;
+            height: 430px;
+        }
+
+        .logoutButton{
+            padding-top: 5px;
+            padding-left: 20px;
+        }
+
+        .buttons{
+            display: grid;
+            grid-template-columns: 40px 40px;
+            padding-left: 40px;
+
+        }
+
+        p{
+            padding-left: 20px;
+            padding-bottom: 10px;
+        }
+
+        i{
+            padding-left: 8px;
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+
+        
+
+        
+        
     </style>
 </head>
 <body>
-<div>
+<div class="header">
     <h1 th:text="${email} + ' welcome'"></h1>
-    <h1>test home page</h1>
+    <h1 style="align-items: center;">test home page</h1>
 </div>
 
 <div>
     <div>
-        <fieldset style="height=1000px">
-            <div>
+        <div class="navi">
+            <div class="makeGroup">
                 <input type="text" id="groupName" placeholder="groupName">
                 <input type="hidden" id="constructor" th:value="${email}">
                 <button type="button" id="createGroup-btn">그룹 생성하기</button>
             </div>
 
-            <div>
-                <p>그룹 이동하기</p>
+            <div class="moveGroup">
+                <i>그룹 이동하기</i>
                 <div th:each="group : ${groups}">
                     <form th:action="'/group/' + ${group.groupId}" method="GET">
                         <input type="hidden" name="memberEmail" value="master">
@@ -37,25 +96,28 @@
                 </div>
             </div>
 
-            <div>
-                <p>초대 현황</p>
+            <div class="inviteStatus">
+                <i>초대 현황</i>
                 <div th:each="message : ${messages}">
                     <p th:text="${message.inviterEmail} + ' 이' + ${message.groupName} + ' 에 초대하였습니다.'"></p>
-                    <form th:action="'/api/accept/' + ${message.messageId}" method="POST">
-                        <input type="hidden" name="memberEmail" value="master">
-                        <button type="submit">수락</button>
-                    </form>
-                    <form th:action="'/api/denied/' + ${message.messageId}" method="POST">
-                        <button type="submit">거절</button>
-                    </form>
+                    <div class="buttons">
+                        <form th:action="'/api/accept/' + ${message.messageId}" method="POST">
+                            <input type="hidden" name="memberEmail" value="master">
+                            <button type="submit">수락</button>
+                        </form>
+                        <form th:action="'/api/denied/' + ${message.messageId}" method="POST">
+                            <button type="submit">거절</button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
-            <div>
+            <div class="logoutButton">
                 <button type="button" class="btn btn-secondary" onclick="location.href='/logout'">로그아웃</button>
             </div>
+        </div>
 
-        </fieldset>
+
     </div>
 
 
