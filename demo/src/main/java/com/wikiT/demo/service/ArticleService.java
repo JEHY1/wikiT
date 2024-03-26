@@ -31,6 +31,11 @@ public class ArticleService {
                 .orElseThrow(() -> new IllegalArgumentException("not found Article"));
     }
 
+    public List<Article> findByGroupId(Long groupId){
+        return articleRepository.findByGroupId(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("not found Article"));
+    }
+
     @Transactional
     public Article update(UpdateArticleRequest request){
         Article article = articleRepository.findById(request.getArticleId())
@@ -44,4 +49,8 @@ public class ArticleService {
         articleRepository.deleteById(request.getArticleId());
     }
 
+    public void deleteArticles(List<Article> articles){
+        articles.stream()
+                .forEach(article -> articleRepository.delete(article));
+    }
 }

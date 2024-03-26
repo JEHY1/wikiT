@@ -1,5 +1,6 @@
 package com.wikiT.demo.controller;
 
+import com.wikiT.demo.domain.Article;
 import com.wikiT.demo.domain.Group;
 import com.wikiT.demo.dto.*;
 import com.wikiT.demo.service.ArticleService;
@@ -63,8 +64,9 @@ public class GroupViewController {
     @PostMapping("/api/expel")
     public String expel(MemberExpelRequest request){
 
-        System.err.println("run expel");
         groupService.expel(request);
+        List<Article> articles = articleService.findBySpaceAndGroupId(request.getUserEmail(), request.getGroupId());
+        articleService.deleteArticles(articles);
 
         return "redirect:/group/" + request.getGroupId() + "?memberEmail=master";
     }
