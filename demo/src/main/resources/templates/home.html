@@ -10,8 +10,10 @@
         }
 
         .header{
-            height: 200px;
+            height: 150px;
             background: gray;
+            text-align: center;
+            vertical-align: middle;
         }
 
         .navi{
@@ -51,7 +53,6 @@
             display: grid;
             grid-template-columns: 40px 40px;
             padding-left: 40px;
-
         }
 
         p{
@@ -65,6 +66,19 @@
             font-weight: bold;
         }
 
+        img{
+            margin-top: 30px;
+        }
+
+        .mail{
+            color: white;
+            text-align: right;
+            margin-right: 40px;
+            margin-top: 15px;
+            font-size: larger;
+        }
+
+
         
 
         
@@ -73,8 +87,9 @@
 </head>
 <body>
 <div class="header">
-    <h1 th:text="${email} + ' welcome'"></h1>
-    <h1 style="align-items: center;">test home page</h1>
+    <img src="/img/logo.png">
+    <i><p class="mail" th:text="'welcome ' + ${email}"></p></i>
+
 </div>
 
 <div>

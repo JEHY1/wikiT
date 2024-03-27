@@ -11,7 +11,7 @@
         }
 
         .header{
-            height: 200px;
+            height: 150px;
             background: gray;
         }
 
@@ -54,30 +54,32 @@
             padding-left: 20px;
         }
 
-        .wrapper{
+        .wrapper {
             display: grid;
-            grid-template-columns: 310px 1550px;
+            grid-template-columns: 310px 1fr;
         }
+
 
         p{
             font-size: larger;
         }
 
-        .half{
+        .half {
             display: grid;
-            grid-template-columns: 750px 790px;
+            grid-template-columns: minmax(300px, 1fr) minmax(100px, 1fr);
+            margin-top: 10px;
         }
 
 
         .rightBottom{
             text-align: right;
             margin-top: 20px;
+            margin-right: 20px;
         }
 
         a {
             display: inline-block;
-            padding: 10px 20px;
-            text-align: center;
+            padding: 5px 10px;
             text-decoration: none;
             background-color: #007bff;
             color: #fff;
@@ -90,24 +92,85 @@
             background-color: #0056b3;
         }
 
+        .articleView{
+            text-align: right;
+        }
+
+        .articleList{
+            margin-top: 30px;
+            margin-bottom: 30px;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
+        .content{
+            margin-left : 40px;
+            margin-right: 40px;
+        }
+
+        .title{
+            margin-left : 5px;
+        }
+
+        .groupName{
+            text-align: center;
+            font-weight: bolder;
+            font-size: 280%;
+        }
+
+        .constructor{
+            text-align: right;
+            color: white;
+            margin-right: 20px;
+
+        }
+
+        .homeImg{
+            width: 25px;
+            height: 25px;
+        }
+
+        .homeButton{
+            margin-left: 10px;
+            width: 40px;
+            height: 40px;
+            background: gray;
+            border: none;
+        }
+
+        img:hover{
+            width: 30px;
+            height: 30px;
+        }
+
+        .half2{
+            display: grid;
+            grid-template-columns: 150px 1fr;
+        }
+
+        .memberSpace{
+            margin-top: 30px;
+            font-size: smaller;
+            font-weight: lighter;
+        }
+
+        
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>welcome</h1>
-        <button type="button" onclick="location.href='/home'">메인</button>
-        <h1 th:text="${groupId} + ' group 에 오신걸 환영합니다.'"></h1>
-        <h1 th:text="'groupMaker : ' + ${constructor}"></h1>
-        <div>
-            <p th:text="${memberSpace} + ' 의 공간입니다.'"></p>
-        </div>
+        <button class="homeButton" type="button" onclick="location.href='/home'">
+            <img class="homeImg" src="/img/home.png">
+        </button>
+        <h1 class="groupName" th:text="${groupName}"></h1>
+        <i><p class="constructor" th:text="'Prod By ' + ${constructor}"></p></i>
     </div>
 
 
     <div class="wrapper">
         <div class="navi">
             <div class="invite">
-                <input type="hidden" id="groupId" th:value="${groupId}">
+                <input type="hidden" id="groupId" th:value="${groupId}" placeholder="email">
                 <input type="text" id="inviteeEmail">
                 <input type="hidden" id="groupName" th:value="${groupName}">
                 <input type="hidden" id="inviterEmail" th:value="${inviterEmail}">
@@ -155,18 +218,22 @@
         <div>
             <div>
                 <div class="half">
-                    <h1>글 목록</h1>
+                    <div class="half2">
+                        <h1 style="margin-top: 10px; margin-left: 20px;">글 목록</h1>
+                        <p th:if="!${memberSpace.equals('master')}" class="memberSpace" th:text="${memberSpace}"></p>
+                    </div>
+
                     <div class="rightBottom">
                         <a th:if="${memberSpace.equals('master') || memberSpace.equals(inviterEmail)}" th:href="@{/newArticle?space={space}&groupId={groupId}(space=${memberSpace}, groupId=${groupId})}">글 등록</a>
                     </div>
                 </div>
                 <hr>
 
-                <div th:each="article:${articles}">
+                <div th:each="article:${articles}" class="articleList">
                     <hr>
-                    <h1 th:text="${article.title}"></h1>
-                    <p th:text="${article.content}"></p>
-                    <form action="/newArticle" method="get">
+                    <h1 th:text="${article.title}" class="title"></h1>
+                    <p th:text="${article.content}" class="content"></p>
+                    <form action="/newArticle" method="get"  class="articleView">
                         <input type="hidden" name="space" th:value="${memberSpace}">
                         <input type="hidden" name="groupId" th:value="${groupId}">
                         <input type="hidden" name="articleId" th:value="${article.articleId}">
