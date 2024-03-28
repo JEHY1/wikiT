@@ -202,8 +202,44 @@
             font-size: 18px;
         }
 
+        .type3{
+            display: inline-block;
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            width: 20px;
+            padding: 5px 0px;
+            font-size: 8px;
+        }
+
+        .type4{
+            display: inline-block;
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 245px;
+            padding: 5px 0px;
+            font-size: 18px;
+        }
+
         .type2:hover{
             background-color: gainsboro;
+        }
+
+        .type4:hover{
+            background-color: gainsboro;
+        }
+
+        .type3:hover{
+            background-color: rgb(250, 139, 139);
+            font-size: 18px;
+        }
+
+        .grid-type1{
+            display: grid;
+            grid-template-columns: 25px 255px;
         }
     </style>
 </head>
@@ -233,15 +269,16 @@
                     <input type="hidden" name="memberEmail" value="master">
                     <button th:if="!${memberSpace.equals('master')}" type="submit" class="type2">공유 공간으로 이동</button>
                 </form>
-                <div th:each="member:${members}">
-                    <form th:action="'/group/' + ${groupId}" method="get">
-                        <input type="hidden" name="memberEmail" th:value="${member.memberName}">
-                        <button type="submit" th:text="${member.memberName}" class="type2"></button>
-                    </form>
+                <div th:each="member:${members}" class="grid-type1">
                     <form action="/api/expel" method="post">
                         <input type="hidden" name="groupId" th:value="${groupId}">
                         <input type="hidden" name="UserEmail" th:value="${member.memberName}">
-                        <button th:if="${isConstructor} and !${myEmail.equals(member.memberName)}" type="submit" >추방</button>
+                        <button th:if="${isConstructor} and !${myEmail.equals(member.memberName)}" type="submit" class="type3">X</button>
+                    </form>
+
+                    <form th:action="'/group/' + ${groupId}" method="get">
+                        <input type="hidden" name="memberEmail" th:value="${member.memberName}">
+                        <button type="submit" th:text="${member.memberName}" class="type4"></button>
                     </form>
                 </div>
             </div>

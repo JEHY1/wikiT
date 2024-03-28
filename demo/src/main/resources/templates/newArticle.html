@@ -91,6 +91,20 @@
             text-decoration: none;
         }
 
+        .type1{
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: gainsboro;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .type1:hover{
+            background-color: gray;
+        }
+
 
     </style>
 
@@ -126,9 +140,9 @@
         </div>
 
         <div style="text-align: right;">
-            <button th:if="${article.title == null}" type="button" id="createArticle-btn">등록</button>
-            <button th:if="${article.title != null && (article.space.equals('master') || article.space.equals(myEmail))} " type="button" id="modifyArticle-btn">수정</button>
-            <button th:if="${article.title != null && (article.space.equals('master') || article.space.equals(myEmail))} " type="button" id="deleteArticle-btn">삭제</button>
+            <button th:if="${article.title == null}" type="button" class="type1" id="createArticle-btn">등록</button>
+            <button th:if="${article.title != null && (article.space.equals('master') || article.space.equals(myEmail))} " type="button" class="type1" id="modifyArticle-btn">수정</button>
+            <button th:if="${article.title != null && (article.space.equals('master') || article.space.equals(myEmail))} " type="button" class="type1" id="deleteArticle-btn">삭제</button>
         </div>
     </div>
     
