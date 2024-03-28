@@ -23,11 +23,7 @@
             padding-left: 20px;
         }
 
-        i{
-            padding-left: 8px;
-            padding-bottom: 10px;
-            font-weight: bold;
-        }
+
 
         .invite{
             padding-top: 20px;
@@ -60,9 +56,7 @@
         }
 
 
-        p{
-            font-size: larger;
-        }
+
 
         .half {
             display: grid;
@@ -81,15 +75,15 @@
             display: inline-block;
             padding: 5px 10px;
             text-decoration: none;
-            background-color: #007bff;
-            color: #fff;
+            background-color: gainsboro;
+            color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
 
         a:hover {
-            background-color: #0056b3;
+            background-color: gray;
         }
 
         .articleView{
@@ -122,7 +116,7 @@
             text-align: right;
             color: white;
             margin-right: 20px;
-
+            margin-top: 25px;
         }
 
         .homeImg{
@@ -131,11 +125,15 @@
         }
 
         .homeButton{
+            display: flex;
             margin-left: 10px;
             width: 40px;
             height: 40px;
             background: gray;
             border: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
 
         img:hover{
@@ -154,7 +152,59 @@
             font-weight: lighter;
         }
 
-        
+        .menu{
+            padding-left: 8px;
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .type1{
+            display: inline-block;
+            padding: 5px 10px;
+            text-decoration: none;
+            background-color: gainsboro;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+        }
+
+        button:hover{
+            background-color: gray;
+        }
+
+        #exit-btn:hover{
+            background-color: red;
+        }
+
+        #remove-btn:hover{
+            background-color: red;
+        }
+
+        .emailBox{
+            width: 190px;
+            height: 25px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .type2{
+            display: inline-block;
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 275px;
+            padding: 5px 0px;
+            padding-left:30px;
+            font-size: 18px;
+        }
+
+        .type2:hover{
+            background-color: gainsboro;
+        }
     </style>
 </head>
 <body>
@@ -163,55 +213,54 @@
             <img class="homeImg" src="/img/home.png">
         </button>
         <h1 class="groupName" th:text="${groupName}"></h1>
-        <i><p class="constructor" th:text="'Prod By ' + ${constructor}"></p></i>
+        <i class="constructorInfo"><p class="constructor" th:text="'Prod By ' + ${constructor}"></p></i>
     </div>
 
 
     <div class="wrapper">
         <div class="navi">
             <div class="invite">
-                <input type="hidden" id="groupId" th:value="${groupId}" placeholder="email">
-                <input type="text" id="inviteeEmail">
+                <input type="hidden" id="groupId" th:value="${groupId}">
+                <input class="emailBox" type="text" id="inviteeEmail"  placeholder=" email">
                 <input type="hidden" id="groupName" th:value="${groupName}">
                 <input type="hidden" id="inviterEmail" th:value="${inviterEmail}">
-                <button type ="button" id="invite-btn">초대하기</button>
+                <button type ="button" id="invite-btn" class="type1">초대하기</button>
             </div>
 
             <div class="moveGroup">
-                <i>현재 그룹에 포함된 맴버들</i>
+                <i class="menu">현재 그룹에 포함된 맴버들</i>
                 <form th:action="'/group/' + ${groupId}" method="get">
                     <input type="hidden" name="memberEmail" value="master">
-                    <button th:if="!${memberSpace.equals('master')}" type="submit">공유 공간으로 이동</button>
+                    <button th:if="!${memberSpace.equals('master')}" type="submit" class="type2">공유 공간으로 이동</button>
                 </form>
                 <div th:each="member:${members}">
-                    <p th:text="${member.memberName}"></p>
                     <form th:action="'/group/' + ${groupId}" method="get">
                         <input type="hidden" name="memberEmail" th:value="${member.memberName}">
-                        <button type="submit" th:text="${member.memberName}"></button>
+                        <button type="submit" th:text="${member.memberName}" class="type2"></button>
                     </form>
                     <form action="/api/expel" method="post">
                         <input type="hidden" name="groupId" th:value="${groupId}">
                         <input type="hidden" name="UserEmail" th:value="${member.memberName}">
-                        <button th:if="${isConstructor} and !${myEmail.equals(member.memberName)}" type="submit">추방</button>
+                        <button th:if="${isConstructor} and !${myEmail.equals(member.memberName)}" type="submit" >추방</button>
                     </form>
                 </div>
             </div>
 
 
             <div class="otherGroups">
-                <i>그룹 목록</i>
+                <i class="menu">그룹 목록</i>
                 <div th:each="group:${groups}">
                     <form th:action="'/group/' + ${group.groupId}" method="get">
                         <input type="hidden" name="memberEmail" value="master">
-                        <button type="submit" th:text="${group.groupName}"></button>
+                        <button type="submit" th:text="${group.groupName}" class="type2"></button>
                     </form>
                 </div>
             </div>
 
             <div class="exitGroup">
-                <i style="color:red;">그룹 나가기</i>
-                <button th:if="!${isConstructor}" type="button" id="exit-btn">그룹 탈퇴</button>
-                <button th:if="${isConstructor}" type="button" id="remove-btn">그룹 삭제</button>
+                <i class="menu" style="color:red;">그룹 나가기</i>
+                <button th:if="!${isConstructor}" type="button" id="exit-btn" class="type1">그룹 탈퇴</button>
+                <button th:if="${isConstructor}" type="button" id="remove-btn" class="type1">그룹 삭제</button>
             </div>
         </div>
 
@@ -233,11 +282,11 @@
                     <hr>
                     <h1 th:text="${article.title}" class="title"></h1>
                     <p th:text="${article.content}" class="content"></p>
-                    <form action="/newArticle" method="get"  class="articleView">
+                    <form action="/newArticle" method="get" class="articleView">
                         <input type="hidden" name="space" th:value="${memberSpace}">
                         <input type="hidden" name="groupId" th:value="${groupId}">
                         <input type="hidden" name="articleId" th:value="${article.articleId}">
-                        <button type="submit">자세히 보기</button>
+                        <button type="submit" class="type1">자세히 보기</button>
                     </form>
 
                 </div>

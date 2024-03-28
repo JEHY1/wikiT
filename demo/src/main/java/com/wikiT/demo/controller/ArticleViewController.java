@@ -33,6 +33,7 @@ public class ArticleViewController {
             model.addAttribute("groupName", groupService.findGroupName(request.getGroupId()));
             System.err.println("articleId : " + request.getArticleId());
             model.addAttribute("article", new ArticleStatusViewResponse(request.getGroupId(), request.getSpace(), principal.getName()));
+            model.addAttribute("constructor", groupService.findConstructor(request.getGroupId()));
             return "newArticle";
         }
 

@@ -51,19 +51,10 @@
 
         .buttons{
             display: grid;
-            grid-template-columns: 40px 40px;
-            padding-left: 40px;
-        }
-
-        p{
-            padding-left: 20px;
-            padding-bottom: 10px;
-        }
-
-        i{
-            padding-left: 8px;
-            padding-bottom: 10px;
-            font-weight: bold;
+            grid-template-columns: 55px 55px;
+            text-align: right;
+            margin-left: 150px;
+            padding-bottom: 25px;
         }
 
         img{
@@ -73,14 +64,66 @@
         .mail{
             color: white;
             text-align: right;
-            margin-right: 40px;
+            margin-right: 20px;
             margin-top: 15px;
-            font-size: larger;
         }
 
+        .menu{
+            padding-left: 8px;
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
 
-        
+        .type1{
+            display: inline-block;
+            padding: 5px 10px;
+            text-decoration: none;
+            background-color: gainsboro;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
+        .type2{
+            display: inline-block;
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 275px;
+            padding: 5px 0px;
+            padding-left:30px;
+            font-size: 18px;
+        }
+
+        .type3{
+            display: inline-block;
+            padding: 5px 10px;
+            text-decoration: none;
+            background-color: gainsboro;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: right;
+        }
+
+        .groupNameBox{
+            width: 190px;
+            height: 25px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .type2:hover{
+            background-color: gainsboro;
+        }
+
+        button:hover{
+            background-color: gray;
+        }
         
         
     </style>
@@ -96,39 +139,39 @@
     <div>
         <div class="navi">
             <div class="makeGroup">
-                <input type="text" id="groupName" placeholder="groupName">
+                <input type="text" id="groupName" class="groupNameBox" placeholder=" groupName">
                 <input type="hidden" id="constructor" th:value="${email}">
-                <button type="button" id="createGroup-btn">그룹 생성하기</button>
+                <button type="button" id="createGroup-btn" class="type1">그룹 생성</button>
             </div>
 
             <div class="moveGroup">
-                <i>그룹 이동하기</i>
+                <i class="menu">그룹 이동하기</i>
                 <div th:each="group : ${groups}">
                     <form th:action="'/group/' + ${group.groupId}" method="GET">
                         <input type="hidden" name="memberEmail" value="master">
-                        <button type="submit" th:text="${group.groupName}"></button>
+                        <button type="submit" class="type2" th:text="${group.groupName}"></button>
                     </form>
                 </div>
             </div>
 
             <div class="inviteStatus">
-                <i>초대 현황</i>
-                <div th:each="message : ${messages}">
+                <i class="menu">초대 현황</i>
+                <div th:each="message : ${messages}" >
                     <p th:text="${message.inviterEmail} + ' 이' + ${message.groupName} + ' 에 초대하였습니다.'"></p>
                     <div class="buttons">
                         <form th:action="'/api/accept/' + ${message.messageId}" method="POST">
                             <input type="hidden" name="memberEmail" value="master">
-                            <button type="submit">수락</button>
+                            <button type="submit" class="type3">수락</button>
                         </form>
                         <form th:action="'/api/denied/' + ${message.messageId}" method="POST">
-                            <button type="submit">거절</button>
+                            <button type="submit" class="type3">거절</button>
                         </form>
                     </div>
                 </div>
             </div>
 
             <div class="logoutButton">
-                <button type="button" class="btn btn-secondary" onclick="location.href='/logout'">로그아웃</button>
+                <button type="button" onclick="location.href='/logout'" class="type1">로그아웃</button>
             </div>
         </div>
 
