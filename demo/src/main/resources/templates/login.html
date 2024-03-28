@@ -79,7 +79,7 @@
 <div></div>
 
     <div class="inputForm">
-        <img src="/static/img/logo2.png">
+        <img src="/img/logo2.png">
 
         <h2>LOGIN</h2>
         <p>서비스를 사용하려면 로그인을 해주세요!</p>
@@ -89,11 +89,11 @@
                 <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
                 <div>
                     <p>Email address</p>
-                    <input type="email" class="form-control" name="username" placeholder="Email">
+                    <input type="email" name="username" placeholder="Email">
                 </div>
                 <div style="margin-top: 10px; margin-bottom: 30px;">
                     <p>Password</p>
-                    <input type="password" class="form-control" name="password" placeholder="Password">
+                    <input type="password" name="password" placeholder="Password">
                 </div>
                 <button type="submit">Submit</button>
             </form>
@@ -103,3 +103,4 @@
 </div>
 </body>
 </html>
+
