@@ -115,6 +115,7 @@
             border-top: none;
             border-left: none;
             border-right: none;
+            max
         }
 
         .type2:hover{
@@ -139,7 +140,7 @@
     <div>
         <div class="navi">
             <div class="makeGroup">
-                <input type="text" id="groupName" class="groupNameBox" placeholder=" groupName">
+                <input type="text" id="groupName" class="groupNameBox" placeholder=" groupName(max:13)" maxlength="13">
                 <input type="hidden" id="constructor" th:value="${email}">
                 <button type="button" id="createGroup-btn" class="type1">그룹 생성</button>
             </div>
