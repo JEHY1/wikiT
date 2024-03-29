@@ -20,7 +20,9 @@ public class UserApiController {
     @PostMapping("/user")
     public String signup(AddUserRequest request){
 
-        userService.submit(request);
+        if(userService.submit(request) == null){
+            return "redirect:/signup?re=1";
+        }
         return "redirect:/login";
     }
 

@@ -17,10 +17,15 @@ public class UserService {
 
     public User submit(AddUserRequest request){
 
-        return userRepository.save(User.builder()
-                .email(request.getEmail())
-                .password(bCryptPasswordEncoder.encode(request.getPassword()))
-                .build());
+        if(userRepository.findByEmail(request.getEmail()).isEmpty()){
+            return userRepository.save(User.builder()
+                    .email(request.getEmail())
+                    .password(bCryptPasswordEncoder.encode(request.getPassword()))
+                    .build());
+        }
+        else{
+            return null;
+        }
     }
 
     public User findByEmail(String email){

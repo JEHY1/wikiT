@@ -42,6 +42,11 @@ public class GroupService {
                 .orElseThrow(() -> new IllegalArgumentException("not found group"));
     }
 
+    public Group findByGroupMakerIdAndMember(Long groupId, String member){
+        return groupRepository.findByGroupMakerIdAndMember(groupId, member)
+                .orElseThrow(() -> new IllegalArgumentException("not found group"));
+    }
+
     public String findGroupName(Long groupMakerId){
         return groupMakerRepository.findById(groupMakerId).orElseThrow(() -> new IllegalArgumentException("not found group Id")).getGroupName();
     }

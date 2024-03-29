@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
@@ -23,7 +24,10 @@ public class UserViewController {
     public String login(){return "login";}
 
     @GetMapping("/signup")
-    public String signup(){return "signup";}
+    public String signup(@RequestParam(required = false) Long re, Model model){
+        model.addAttribute("re", re);
+        return "signup";
+    }
 
     @GetMapping("/home")
     public String home(Principal principal, Model model){

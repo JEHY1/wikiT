@@ -75,7 +75,8 @@
 <div class="inputForm">
     <img src="/img/logo2.png">
     <h2 class="text-white">SIGN UP</h2>
-    <p class="text-white-50 mt-2 mb-5">서비스 사용을 위한 회원 가입</p>
+    <p th:if="${re} == null">서비스 사용을 위한 회원 가입</p>
+    <p style="color:red;" th:if="${re} == 1">이미 사용중인 Email 입니다.</p>
 
     <div>
         <form th:action="@{/user}" method="POST" class="inputBox">

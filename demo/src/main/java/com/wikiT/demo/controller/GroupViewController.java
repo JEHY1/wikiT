@@ -24,6 +24,12 @@ public class GroupViewController {
     @GetMapping("/group/{groupId}")
     public String moveGroup(@PathVariable Long groupId, MoveRequest request, Principal principal, Model model){
 
+
+
+        if(groupService.findByGroupMakerIdAndMember(groupId, principal.getName()) == null){
+            return "error";
+        }
+
         model.addAttribute("groupId", groupId);
         List<GroupMemberViewResponse> members = groupService.findByGroupMakerId(groupId).stream()
                 .map(GroupMemberViewResponse::new)

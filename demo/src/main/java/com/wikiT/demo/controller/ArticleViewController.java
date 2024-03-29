@@ -27,7 +27,9 @@ public class ArticleViewController {
     @GetMapping("/newArticle")
     public String showNewArticleView(ArticleStatusViewRequest request, Principal principal, Model model){
 
-        System.err.println("space : " + request.getSpace());
+        if(groupService.findByGroupMakerIdAndMember(request.getGroupId(), principal.getName()) == null){
+            return "error";
+        }
 
         if(request.getArticleId() == null){
             model.addAttribute("groupName", groupService.findGroupName(request.getGroupId()));
