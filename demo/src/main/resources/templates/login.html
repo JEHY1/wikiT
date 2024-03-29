@@ -89,11 +89,11 @@
                 <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
                 <div>
                     <p>Email address</p>
-                    <input type="email" name="username" placeholder="Email">
+                    <input type="email" name="username" placeholder="Email" value="test@email.com">
                 </div>
                 <div style="margin-top: 10px; margin-bottom: 30px;">
                     <p>Password</p>
-                    <input type="password" name="password" placeholder="Password">
+                    <input type="password" name="password" placeholder="Password" value="testPassword">
                 </div>
                 <button type="submit">Submit</button>
             </form>

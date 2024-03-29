@@ -21,6 +21,7 @@ if(createArticleButton){
             space: document.getElementById('space').value
         })
 
+
         httpRequest('POST', `/api/article`, body, success, fail);
 
 

@@ -83,11 +83,11 @@
             <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
             <div class="mb-3">
                 <p class="form-label text-white">Email address</p>
-                <input type="email" class="form-control" name="email" placeholder="Email" maxlength="25">
+                <input type="email" class="form-control" name="email" placeholder="Email" maxlength="25" value="test@email.com">
             </div>
             <div style="margin-top: 10px; margin-bottom: 30px;">
                 <p class="form-label text-white">Password</p>
-                <input type="password" name="password" placeholder="Password">
+                <input type="password" name="password" placeholder="Password" value="testPassword">
             </div>
 
             <button type="submit">Submit</button>

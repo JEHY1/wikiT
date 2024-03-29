@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <input type="datetime-local" id="startAt">
+    <input type="datetime-local" id="endAt">
+    <input type="text" id="schedule-content">
+    <input type="hidden" id="principalEmail" value="me">
+    <input type="hidden" id="groupId" value="1">
+    <input type="hidden" id="status" value="will">
+
+    <button type="button" id="schedule-submitPrivate-btn">개인</button>
+    <button type="button" id="schedule-submitPublic-btn">그룹</button>
+
+    <div th:each="schedule : ${schedules}">
+        <form action="/api/schedule" method="post">
+            <
+        </form>
+
+    </div>
+
+<script src="/js/schedule.js">
+
+
+</script>
+</body>
+</html>

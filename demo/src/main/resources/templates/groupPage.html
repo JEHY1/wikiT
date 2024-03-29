@@ -334,11 +334,20 @@
         </div>
     </div>
 
+    <div>
+        <input type="datetime-local" id="startAt">
+        <input type="datetime-local" id="endAt">
+        <input type="text" id="schedule-content">
+        <input type="hidden" id="principalEmail" th:value="${inviterEmail}">
+        <button type="button" id="private-schedule-submit-btn">개인</button>
+    </div>
+
 
 
 
     <input type="hidden" id="articleId">
     <input type="hidden" id="memberSpace" th:value="${memberSpace}">
+    <script src="/js/schedule.js"></script>
     <script src="/js/group.js"></script>
 </body>
 </html>
