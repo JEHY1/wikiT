@@ -2,10 +2,11 @@ package com.wikiT.demo.controller;
 
 import com.wikiT.demo.domain.Article;
 import com.wikiT.demo.domain.Group;
+import com.wikiT.demo.domain.Schedule;
 import com.wikiT.demo.dto.*;
 import com.wikiT.demo.service.ArticleService;
 import com.wikiT.demo.service.GroupService;
-import com.wikiT.demo.service.UserService;
+import com.wikiT.demo.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ public class GroupViewController {
 
     private final GroupService groupService;
     private final ArticleService articleService;
+    private final ScheduleService scheduleServic;
 
     @GetMapping("/group/{groupId}")
     public String moveGroup(@PathVariable Long groupId, MoveRequest request, Principal principal, Model model){
@@ -53,6 +55,15 @@ public class GroupViewController {
                 .map(GroupButtonViewResponse::new)
                 .toList();
         model.addAttribute("groups", groups);
+
+        model.addAttribute("groupSchedules", scheduleServic.findByGroupIdAndSpace(groupId, "master"));
+
+        List<Schedule> schedules = scheduleServic.findByGroupIdAndSpace(groupId, "master");
+
+        if(!schedules.isEmpty()){
+            System.err.println(schedules.get(0).getContent());
+        }
+
 
 
         return "groupPage";

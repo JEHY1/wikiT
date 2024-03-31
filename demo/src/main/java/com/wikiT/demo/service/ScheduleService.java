@@ -6,6 +6,8 @@ import com.wikiT.demo.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
@@ -15,6 +17,12 @@ public class ScheduleService {
     public Schedule submit(AddScheduleRequest request){
 
         return scheduleRepository.save(request.toEntity());
+    }
+
+    public List<Schedule> findByGroupIdAndSpace(Long groupId, String space){
+
+        return scheduleRepository.findByGroupIdAndSpace(groupId, space)
+                .orElseThrow(() -> new IllegalArgumentException("not found schedule"));
     }
 
 }

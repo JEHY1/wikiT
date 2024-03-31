@@ -27,8 +27,34 @@ if(privateScheduleSubmitButton){
         httpRequest('POST', `/api/schedule`, body, success, fail);
 
     });
+}
 
+const groupScheduleSubmitButton = document.getElementById('group-schedule-submit-btn');
 
+if(groupScheduleSubmitButton){
+    groupScheduleSubmitButton.addEventListener('click', () => {
+
+        function success(){
+            alert('group schedule submit success');
+            location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
+        }
+
+        function fail(){
+            alert('group schedule submit fail');
+            location.replace('group/' + document.getElementById('groupId').value + '?memberEmail=' + document.getElementById('memberSpace'));
+        }
+
+        let body = JSON.stringify({
+            groupId: document.getElementById('groupId').value,
+            space: "master",
+            startAt: document.getElementById('startAt').value,
+            endAt: document.getElementById('endAt').value,
+            content: document.getElementById('schedule-content').value,
+            status: null
+        })
+
+        httpRequest('POST', `/api/schedule`, body, success, fail);
+    });
 }
 
 function httpRequest(method, url, body, success, fail){

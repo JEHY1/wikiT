@@ -340,7 +340,20 @@
         <input type="text" id="schedule-content">
         <input type="hidden" id="principalEmail" th:value="${inviterEmail}">
         <button type="button" id="private-schedule-submit-btn">개인</button>
+        <button type="button" id="group-schedule-submit-btn">group</button>
     </div>
+
+    <div>
+        <h1>groupSchedule</h1>
+        <div th:each="groupSchedule:${groupSchedules}">
+            <p th:if="${groupSchedule.startAt != null}" th:text="${#temporals.format(groupSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
+
+            <p>~</p>
+            <p th:if="${groupSchedule.endAt != null}" th:text="${#temporals.format(groupSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
+            <p th:text="${groupSchedule.content}"></p>
+        </div>
+    </div>
+
 
 
 
