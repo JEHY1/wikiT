@@ -182,6 +182,27 @@
 
 
 </div>
+
+<div>
+    <h1>schedules</h1>
+    <div th:each="schedule : ${allSchedules}">
+        <p th:if="${schedule.startAt != null}" th:text="${#temporals.format(schedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
+        <p>~</p>
+        <p th:if="${schedule.endAt != null}" th:text="${#temporals.format(schedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
+        <p th:if="${schedule.content != null}" th:text="${schedule.content}"></p>
+
+        <input type="hidden" class="scheduleIds" th:value="${schedule.id}">
+        <button type="button" class="deleteSchedule-btn">삭제</button>
+
+    </div>
+
+    <div th:if="${scheduleId != null}">
+
+    </div>
+
+</div>
+
     <script src="/js/group.js"></script>
+    <script src="/js/schedule.js"></script>
 </body>
 </html>

@@ -2,10 +2,13 @@ package com.wikiT.demo.controller;
 
 import com.wikiT.demo.domain.Schedule;
 import com.wikiT.demo.dto.AddScheduleRequest;
+import com.wikiT.demo.dto.DeleteScheduleRequest;
 import com.wikiT.demo.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,5 +28,13 @@ public class ScheduleApiController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(schedule);
+    }
+
+    @DeleteMapping("/api/schedule")
+    public ResponseEntity<Void> delete(@RequestBody DeleteScheduleRequest request){
+
+        scheduleService.delete(request.getScheduleId());
+        return ResponseEntity.ok()
+                .build();
     }
 }

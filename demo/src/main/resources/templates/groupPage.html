@@ -346,12 +346,26 @@
     <div>
         <h1>groupSchedule</h1>
         <div th:each="groupSchedule:${groupSchedules}">
+            <input type="hidden" class="groupScheduleIds" th:value="${groupSchedule.id}">
             <p th:if="${groupSchedule.startAt != null}" th:text="${#temporals.format(groupSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
-
             <p>~</p>
             <p th:if="${groupSchedule.endAt != null}" th:text="${#temporals.format(groupSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
             <p th:text="${groupSchedule.content}"></p>
+
+            <button type="button" class="groupScheduleDelete-btn">삭제</button>
         </div>
+
+        <h1>personal schedule</h1>
+        <div th:each="personalSchedule : ${personalSchedules}">
+            <input type="hidden" class="personalScheduleIds" th:value="${personalSchedule.id}">
+            <p th:if="${personalSchedule.startAt != null}" th:text="${#temporals.format(personalSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
+            <p>~</p>
+            <p th:if="${personalSchedule.endAt != null}" th:text="${#temporals.format(personalSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
+            <p th:text="${personalSchedule.content}"></p>
+
+            <button type="button" class="personalScheduleDelete-btn">삭제</button>
+        </div>
+
     </div>
 
 

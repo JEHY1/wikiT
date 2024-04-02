@@ -41,7 +41,7 @@ if(groupScheduleSubmitButton){
 
         function fail(){
             alert('group schedule submit fail');
-            location.replace('group/' + document.getElementById('groupId').value + '?memberEmail=' + document.getElementById('memberSpace'));
+            location.replace('/group/' + document.getElementById('groupId').value + '?memberEmail=' + document.getElementById('memberSpace').value);
         }
 
         let body = JSON.stringify({
@@ -54,6 +54,90 @@ if(groupScheduleSubmitButton){
         })
 
         httpRequest('POST', `/api/schedule`, body, success, fail);
+    });
+}
+
+const groupScheduleDeleteButtons =  document.getElementsByClassName('groupScheduleDelete-btn');
+
+if(groupScheduleDeleteButtons){
+
+    function success(){
+        alert('스케줄 삭제 성공');
+        location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
+    }
+
+    function fail(){
+        alert('스케줄 삭제 실패');
+        location.replace('/group/' + document.getElementById('groupId').value + '?memberEmail=' + document.getElementById('memberSpace').value);
+    }
+
+    let scheduleIds = Array.from(document.getElementsByClassName('groupScheduleIds'));
+    let index = 0;
+
+    Array.from(groupScheduleDeleteButtons).forEach(button => {
+
+        let body = JSON.stringify({
+            scheduleId : scheduleIds[index++].value
+        });
+
+        button.addEventListener('click', () => {
+            httpRequest('DELETE', `/api/schedule`, body, success, fail);
+        });
+    });
+}
+
+const personalScheduleDeleteButtons = document.getElementsByClassName('personalScheduleDelete-btn');
+
+if(personalScheduleDeleteButtons){
+    let index = 0;
+    let scheduleIds = Array.from(document.getElementsByClassName('personalScheduleIds'));
+
+    function success(){
+        alert('스케줄 삭제 성공');
+        location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
+    }
+
+    function fail(){
+        alert('스케줄 삭제 실패');
+        location.replace('/group/' + document.getElementById('groupId').value + '?memberEmail=' + document.getElementById('memberSpace').value);
+    }
+
+    Array.from(personalScheduleDeleteButtons).forEach(button => {
+        button.addEventListener('click', () => {
+            let body = JSON.stringify({
+                scheduleId : scheduleIds[index++].value
+            });
+
+            httpRequest('DELETE', `/api/schedule`, body, success, fail);
+        });
+    });
+}
+
+const scheduleDeleteButton = document.getElementsByClassName('deleteSchedule-btn');
+
+if(scheduleDeleteButton){
+
+    function success(){
+        alert('스케줄 삭제 성공');
+        location.replace('/home');
+    }
+
+    function fail(){
+        alert('스케줄 삭제 실패');
+        location.replace('/home');
+    }
+
+    let scheduleIds = Array.from(document.getElementsByClassName('scheduleIds'));
+    let index = 0;
+
+    Array.from(scheduleDeleteButton).forEach(button => {
+        button.addEventListener('click', () => {
+            let body = JSON.stringify({
+                scheduleId: scheduleIds[index++].value
+            });
+
+            httpRequest('DELETE', `/api/schedule`, body, success, fail);
+        });
     });
 }
 

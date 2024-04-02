@@ -2,8 +2,10 @@ package com.wikiT.demo.controller;
 
 
 import com.wikiT.demo.dto.GroupButtonViewResponse;
+import com.wikiT.demo.dto.HomeViewRequest;
 import com.wikiT.demo.dto.InviteMessageViewResponse;
 import com.wikiT.demo.service.GroupService;
+import com.wikiT.demo.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,7 @@ import java.util.List;
 public class UserViewController {
 
     private final GroupService groupService;
+    private final ScheduleService scheduleService;
 
 
     @GetMapping("/login")
@@ -30,7 +33,7 @@ public class UserViewController {
     }
 
     @GetMapping("/home")
-    public String home(Principal principal, Model model){
+    public String home(HomeViewRequest request, Principal principal, Model model){
 
         model.addAttribute("email", principal.getName());
         List<GroupButtonViewResponse> groups = groupService.findByMember(principal.getName())
@@ -45,6 +48,16 @@ public class UserViewController {
                 .toList();
 
         model.addAttribute("messages", messages);
+
+
+        model.addAttribute("allSchedules", scheduleService.findMySchedules(principal.getName(), groupService.findByMember(principal.getName())));
+
+        model.addAttribute("scheduleId", request.getScheduleId());
+
+//        scheduleService.findMySchedules(principal.getName(), null).forEach(schedule -> System.err.println("content" + schedule.getContent()));
+
+
+
         return "home";
     }
 }
