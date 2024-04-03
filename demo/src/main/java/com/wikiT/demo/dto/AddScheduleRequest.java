@@ -17,7 +17,6 @@ public class AddScheduleRequest {
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private String content;
-    private String status;
 
 
     public Schedule toEntity(){
@@ -27,7 +26,6 @@ public class AddScheduleRequest {
                 .startAt(startAt)
                 .endAt(endAt)
                 .content(content)
-                .status(status)
                 .build();
     }
 }

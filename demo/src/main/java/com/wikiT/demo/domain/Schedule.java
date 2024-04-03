@@ -1,6 +1,7 @@
 package com.wikiT.demo.domain;
 
 
+import com.wikiT.demo.dto.UpdateScheduleRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,13 +38,47 @@ public class Schedule {
     private String status;
 
     @Builder
-    public Schedule(Long groupId, String space, LocalDateTime startAt, LocalDateTime endAt, String content, String status){
+    public Schedule(Long groupId, String space, LocalDateTime startAt, LocalDateTime endAt, String content){
 
         this.groupId = groupId;
         this.space = space;
         this.startAt = startAt;
         this.endAt = endAt;
         this.content = content;
-        this. status = status;
+        if(this.endAt != null){
+            if(this.endAt.isAfter(LocalDateTime.now())){
+                status = "run";
+            }
+            else{
+                status = "timeOut";
+            }
+        }
+        else{
+            status = "run";
+        }
+    }
+
+    public void update(UpdateScheduleRequest request){
+
+        this.startAt = request.getStartAt();
+        this.endAt = request.getEndAt();
+        this.content = request.getContent();
+        System.err.println("status : " + this.status);
+
+        if(!this.status.equals("complete")) {
+            if (this.endAt != null) {
+                if (this.endAt.isAfter(LocalDateTime.now())) {
+                    status = "run";
+                } else {
+                    status = "timeOut";
+                }
+            } else {
+                status = "run";
+            }
+        }
+    }
+
+    public void update(String status){
+        this.status = status;
     }
 }

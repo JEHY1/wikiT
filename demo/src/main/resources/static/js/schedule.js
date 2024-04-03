@@ -50,7 +50,6 @@ if(groupScheduleSubmitButton){
             startAt: document.getElementById('startAt').value,
             endAt: document.getElementById('endAt').value,
             content: document.getElementById('schedule-content').value,
-            status: null
         })
 
         httpRequest('POST', `/api/schedule`, body, success, fail);
@@ -72,14 +71,12 @@ if(groupScheduleDeleteButtons){
     }
 
     let scheduleIds = Array.from(document.getElementsByClassName('groupScheduleIds'));
-    let index = 0;
 
-    Array.from(groupScheduleDeleteButtons).forEach(button => {
+    Array.from(groupScheduleDeleteButtons).forEach((button, index) => {
 
         let body = JSON.stringify({
-            scheduleId : scheduleIds[index++].value
+            scheduleId : scheduleIds[index].value
         });
-
         button.addEventListener('click', () => {
             httpRequest('DELETE', `/api/schedule`, body, success, fail);
         });
@@ -89,7 +86,7 @@ if(groupScheduleDeleteButtons){
 const personalScheduleDeleteButtons = document.getElementsByClassName('personalScheduleDelete-btn');
 
 if(personalScheduleDeleteButtons){
-    let index = 0;
+
     let scheduleIds = Array.from(document.getElementsByClassName('personalScheduleIds'));
 
     function success(){
@@ -102,12 +99,11 @@ if(personalScheduleDeleteButtons){
         location.replace('/group/' + document.getElementById('groupId').value + '?memberEmail=' + document.getElementById('memberSpace').value);
     }
 
-    Array.from(personalScheduleDeleteButtons).forEach(button => {
+    Array.from(personalScheduleDeleteButtons).forEach((button, index) => {
         button.addEventListener('click', () => {
             let body = JSON.stringify({
-                scheduleId : scheduleIds[index++].value
+                scheduleId : scheduleIds[index].value
             });
-
             httpRequest('DELETE', `/api/schedule`, body, success, fail);
         });
     });
@@ -128,18 +124,143 @@ if(scheduleDeleteButton){
     }
 
     let scheduleIds = Array.from(document.getElementsByClassName('scheduleIds'));
-    let index = 0;
 
-    Array.from(scheduleDeleteButton).forEach(button => {
+    Array.from(scheduleDeleteButton).forEach((button, index) => {
         button.addEventListener('click', () => {
             let body = JSON.stringify({
-                scheduleId: scheduleIds[index++].value
+                scheduleId: scheduleIds[index].value
             });
-
             httpRequest('DELETE', `/api/schedule`, body, success, fail);
         });
     });
 }
+
+const updateScheduleButton = document.getElementById('updateSchedule-btn');
+
+if(updateScheduleButton){
+
+    updateScheduleButton.addEventListener('click', () => {
+        let body = JSON.stringify({
+                scheduleId: document.getElementById('scheduleId').value,
+                startAt: document.getElementById('newStartAt').value,
+                endAt: document.getElementById('newEndAt').value,
+                content: document.getElementById('newContent').value
+            });
+
+            httpRequest('PUT', `/api/schedule`, body, success, fail);
+    })
+    function success(){
+        alert('스케줄 수정 성공');
+        location.replace('/home');
+    }
+
+    function fail(){
+        alert('스케줄 수정 실패');
+        location.replace('/home');
+    }
+}
+
+const completeScheduleButtons = document.getElementsByClassName('completeSchedule-btn');
+
+if(completeScheduleButtons){
+    let scheduleIds = Array.from(document.getElementsByClassName('scheduleIds'));
+
+    Array.from(completeScheduleButtons).forEach((button, index) => {
+        button.addEventListener('click', () => {
+            let body = JSON.stringify({
+                scheduleId: scheduleIds[index].value
+            });
+            httpRequest('PUT', `/api/scheduleComplete`, body, success, fail);
+        });
+    })
+
+    function success(){
+        alert('스케줄 수정 성공');
+        location.replace('/home');
+    }
+
+    function fail(){
+        alert('스케줄 수정 실패');
+        location.replace('/home');
+    }
+}
+
+const updateScheduleButton2 = document.getElementById('updateSchedule-btn2');
+
+if(updateScheduleButton2){
+    updateScheduleButton2.addEventListener('click', () => {
+        let body = JSON.stringify({
+            scheduleId: document.getElementById('scheduleId').value,
+            startAt: document.getElementById('startAt').value,
+            endAt: document.getElementById('endAt').value,
+            content: document.getElementById('schedule-content').value
+        });
+
+        httpRequest('PUT', `/api/schedule`, body, success, fail);
+    })
+
+    function success(){
+        alert('스케줄 수정 성공');
+        location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
+    }
+
+    function fail(){
+        alert('스케줄 수정 실패');
+        location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
+    }
+}
+
+const completeGroupScheduleButton = document.getElementsByClassName('completeGroupSchedule-btn');
+
+if(completeGroupScheduleButton){
+    let scheduleIds = Array.from(document.getElementsByClassName('groupScheduleIds'));
+
+    Array.from(completeGroupScheduleButton).forEach((button, index) => {
+        button.addEventListener('click', () => {
+            let body = JSON.stringify({
+                scheduleId: scheduleIds[index].value
+            });
+            httpRequest('PUT', `/api/scheduleComplete`, body, success, fail);
+        });
+    });
+
+    function success(){
+        alert('스케줄 수정 성공');
+        location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
+    }
+
+    function fail(){
+        alert('스케줄 수정 실패');
+        location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
+    }
+}
+
+const completePersonalScheduleButton = document.getElementsByClassName('completePersonalSchedule-btn');
+
+if(completePersonalScheduleButton){
+    let scheduleIds = Array.from(document.getElementsByClassName('personalScheduleIds'));
+
+    Array.from(completePersonalScheduleButton).forEach((button, index) => {
+        button.addEventListener('click', () => {
+            let body = JSON.stringify({
+                scheduleId: scheduleIds[index].value
+            });
+            httpRequest('PUT', `/api/scheduleComplete`, body, success, fail);
+        });
+    });
+
+    function success(){
+        alert('스케줄 수정 성공');
+        location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
+    }
+
+    function fail(){
+        alert('스케줄 수정 실패');
+        location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
+    }
+}
+
+
 
 function httpRequest(method, url, body, success, fail){
     fetch(url, {

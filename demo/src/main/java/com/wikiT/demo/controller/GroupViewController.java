@@ -61,10 +61,13 @@ public class GroupViewController {
 
         List<Schedule> schedules = scheduleServic.findByGroupIdAndSpace(groupId, "master");
 
-        if(!schedules.isEmpty()){
-            System.err.println(schedules.get(0).getContent());
+        model.addAttribute("scheduleId", request.getScheduleId());
+        if(request.getScheduleId() != null) {
+            Schedule schedule = scheduleServic.findById(request.getScheduleId());
+            model.addAttribute("scheduleStartAt", schedule.getStartAt());
+            model.addAttribute("scheduleEndAt", schedule.getEndAt());
+            model.addAttribute("scheduleContent", schedule.getContent());
         }
-
 
 
         return "groupPage";

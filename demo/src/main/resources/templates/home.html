@@ -193,12 +193,21 @@
 
         <input type="hidden" class="scheduleIds" th:value="${schedule.id}">
         <button type="button" class="deleteSchedule-btn">삭제</button>
+        <button type="button" th:onclick="|location.href='/home?scheduleId=${schedule.id}'|">수정</button>
+        <button type="button" class="completeSchedule-btn">완료</button>
+
 
     </div>
 
     <div th:if="${scheduleId != null}">
-
+        <h1>수정 폼</h1>
+        <input type="hidden" id="scheduleId" th:value="${scheduleId}">
+        <input type="datetime-local" id="newStartAt" th:value="${scheduleStartAt}">
+        <input type="datetime-local" id="newEndAt" th:value="${scheduleEndAt}">
+        <input type="text" id="newContent" th:value="${scheduleContent}">
+        <button type="button" id="updateSchedule-btn">수정하기</button>
     </div>
+
 
 </div>
 

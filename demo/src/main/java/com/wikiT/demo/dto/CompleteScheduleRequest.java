@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MoveRequest {
+public class CompleteScheduleRequest {
 
-    private String memberEmail;
     private Long scheduleId;
 }

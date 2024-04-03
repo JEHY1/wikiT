@@ -1,6 +1,7 @@
 package com.wikiT.demo.controller;
 
 
+import com.wikiT.demo.domain.Schedule;
 import com.wikiT.demo.dto.GroupButtonViewResponse;
 import com.wikiT.demo.dto.HomeViewRequest;
 import com.wikiT.demo.dto.InviteMessageViewResponse;
@@ -54,7 +55,15 @@ public class UserViewController {
 
         model.addAttribute("scheduleId", request.getScheduleId());
 
-//        scheduleService.findMySchedules(principal.getName(), null).forEach(schedule -> System.err.println("content" + schedule.getContent()));
+        if(request.getScheduleId() != null) {
+            Schedule schedule = scheduleService.findById(request.getScheduleId());
+
+            model.addAttribute("scheduleStartAt", schedule.getStartAt());
+            model.addAttribute("scheduleEndAt", schedule.getEndAt());
+            model.addAttribute("scheduleContent", schedule.getContent());
+        }
+
+
 
 
 
