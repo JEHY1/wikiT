@@ -69,6 +69,7 @@ public class GroupViewController {
             model.addAttribute("scheduleContent", schedule.getContent());
         }
 
+        model.addAttribute("status", request.getStatus());
 
         return "groupPage";
     }

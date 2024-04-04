@@ -7,6 +7,7 @@ import com.wikiT.demo.dto.UpdateScheduleRequest;
 import com.wikiT.demo.repository.ScheduleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.grammars.hql.HqlParser;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,21 +32,79 @@ public class ScheduleService {
 
     @Transactional
     public List<Schedule> findMySchedules(String email, List<Group> groups){
-        List<Schedule> schedules = scheduleRepository.findBySpace(email)
+        List<Schedule> updateSchedules = scheduleRepository.findBySpace(email)
                 .orElseThrow(() -> new IllegalArgumentException("not found schedule"));
 
         groups.forEach(group -> {
-            schedules.addAll(scheduleRepository.findByGroupIdAndSpace(group.getGroupMakerId(), "master")
+            updateSchedules.addAll(scheduleRepository.findByGroupIdAndSpace(group.getGroupMakerId(), "master")
                     .orElseThrow());
         });
 
         LocalDateTime now = LocalDateTime.now();
 
-        schedules.forEach(schedule -> {
+        updateSchedules.forEach(schedule -> {
             if(schedule.getEndAt() != null && schedule.getStatus().equals("run") && !schedule.getEndAt().isAfter(now)){
                 schedule.update("timeOut");
             }
         });
+
+        List<Schedule> schedules = scheduleRepository.findBySpaceAndStatus(email, "run")
+                .orElseThrow(() -> new IllegalArgumentException("not found Schedule"));
+        groups.forEach(group -> {
+            schedules.addAll(scheduleRepository.findByGroupIdAndSpaceAndStatus(group.getGroupMakerId(), "master", "run")
+                    .orElseThrow());
+        });
+
+
+        schedules.sort((o1, o2) -> {
+            if(o1.getEndAt() != null && o2.getEndAt() != null){
+                if(o1.getEndAt().isAfter(o2.getEndAt())){
+                    return 1;
+                }
+                else{
+                    return -1;
+                }
+            }
+            else if(o1.getEndAt() == null && o2.getEndAt() != null){
+                return 1;
+            }
+            else{
+                return -1;
+            }
+        });
+
+        return schedules;
+    }
+
+    public List<Schedule> findMyScheduleOthers(String email, List<Group> groups){
+        List<Schedule> schedules = scheduleRepository.findBySpaceAndStatus(email, "timeOut")
+                .orElseThrow();
+        schedules.addAll(scheduleRepository.findBySpaceAndStatus(email, "complete")
+                .orElseThrow());
+
+        groups.forEach(group -> {
+            schedules.addAll(scheduleRepository.findByGroupIdAndSpaceAndStatus(group.getGroupMakerId(), "master", "timeOut")
+                    .orElseThrow());
+            schedules.addAll(scheduleRepository.findByGroupIdAndSpaceAndStatus(group.getGroupMakerId(), "master", "complete")
+                    .orElseThrow());
+        });
+
+        schedules.sort(((o1, o2) -> {
+            if(o1.getEndAt() != null && o2.getEndAt() != null){
+                if(o1.getEndAt().isAfter(o2.getEndAt())){
+                    return 1;
+                }
+                else{
+                    return -1;
+                }
+            }
+            else if(o1.getEndAt() == null && o2.getEndAt() != null){
+                return 1;
+            }
+            else{
+                return -1;
+            }
+        }));
 
         return schedules;
     }

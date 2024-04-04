@@ -125,9 +125,31 @@
         button:hover{
             background-color: gray;
         }
-        
+
+        .content{
+            display: grid;
+            grid-template-columns: 301px 1fr 210px;
+        }
+
+        .moveGroup-btn:hover{
+            cursor: pointer;
+        }
+
+        #schedulesLayout{
+            display: grid;
+            grid-template-columns: 1fr minmax(400px,10fr) 1fr;
+            text-align: center;
+        }
+
+        .liveSchedulesLayout{
+            width: 500px;
+            border: 1px solid gray;
+
+        }
         
     </style>
+
+    <input type="hidden" id="isViewAll" th:value="${isViewAll}">
 </head>
 <body>
 <div class="header">
@@ -137,7 +159,7 @@
 </div>
 
 <div>
-    <div>
+    <div class="content">
         <div class="navi">
             <div class="makeGroup">
                 <input type="text" id="groupName" class="groupNameBox" placeholder=" groupName(max:13)" maxlength="13">
@@ -176,7 +198,65 @@
             </div>
         </div>
 
+        <div id="schedulesLayout">
 
+            <div></div>
+            <div style="margin-top: 100px;">
+                <h1 style="height:20px;">schedules</h1>
+                <div style="width: 200px; display: inline-block;">
+                    <hr>
+                </div>
+                <div></div>
+                <div style="text-align: right; width: 200px; display:inline-block;">
+                    <button th:if="${isViewAll != 1}" type="button" th:onclick="|location.href='/home?status=1'|">열기</button>
+                    <button th:if="${isViewAll == 1}" type="button" th:onclick="|location.href='/home'|">닫기</button>
+                </div>
+
+
+                <div th:if="${isViewAll==1}">
+                    <h1>doneSchedules</h1>
+                    <div th:each="doneSchedule : ${doneSchedules}">
+                        <p th:if="${doneSchedule.startAt != null}" th:text="${#temporals.format(doneSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
+                        <p>~</p>
+                        <p th:if="${doneSchedule.endAt != null}" th:text="${#temporals.format(doneSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
+                        <p th:if="${doneSchedule.content != null}" th:text="${doneSchedule.content}"></p>
+                        <input type="hidden" class="doneScheduleIds" th:value="${doneSchedule.id}">
+                        <button type="button" class="deleteDoneSchedule-btn">삭제</button>
+                    </div>
+                </div>
+                <div></div>
+                <div style="display: inline-block">
+                    <div th:each="schedule : ${allSchedules}" class="liveSchedulesLayout">
+                        <p style="display:inline-block" th:if="${schedule.startAt != null}" th:text="${#temporals.format(schedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
+                        <p style="display:inline-block" th:if="${schedule.startAt != null && schedule.endAt != null}">~</p>
+                        <p style="display:inline-block" th:if="${schedule.endAt != null}" th:text="${#temporals.format(schedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
+                        <p th:if="${schedule.content != null}" th:text="${schedule.content}"></p>
+                        <h3 th:text="${schedule.groupName}" class="moveGroup-btn" th:onclick="|location.href='/group/${schedule.groupId}?memberEmail=master'|"></h3>
+
+                        <input type="hidden" class="scheduleIds" th:value="${schedule.scheduleId}">
+                        <button type="button" class="deleteSchedule-btn">삭제</button>
+                        <button th:if="${isViewAll != 1}" type="button" th:onclick="|location.href='/home?scheduleId=${schedule.scheduleId}'|">수정</button>
+                        <button th:if="${isViewAll == 1}" type="button" th:onclick="|location.href='/home?scheduleId=${schedule.scheduleId}&status=${isViewAll}'|">수정</button>
+                        <button type="button" class="completeSchedule-btn">완료</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+        <div>
+            <div th:if="${scheduleId != null}">
+                <h1>수정 폼</h1>
+                <input type="hidden" id="scheduleId" th:value="${scheduleId}">
+                <input type="datetime-local" id="newStartAt" th:value="${scheduleStartAt}">
+                <input type="datetime-local" id="newEndAt" th:value="${scheduleEndAt}">
+                <input type="text" id="newContent" th:value="${scheduleContent}">
+                <button type="button" id="updateSchedule-btn">수정하기</button>
+            </div>
+        </div>
     </div>
 
 
@@ -184,29 +264,9 @@
 </div>
 
 <div>
-    <h1>schedules</h1>
-    <div th:each="schedule : ${allSchedules}">
-        <p th:if="${schedule.startAt != null}" th:text="${#temporals.format(schedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
-        <p>~</p>
-        <p th:if="${schedule.endAt != null}" th:text="${#temporals.format(schedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
-        <p th:if="${schedule.content != null}" th:text="${schedule.content}"></p>
-
-        <input type="hidden" class="scheduleIds" th:value="${schedule.id}">
-        <button type="button" class="deleteSchedule-btn">삭제</button>
-        <button type="button" th:onclick="|location.href='/home?scheduleId=${schedule.id}'|">수정</button>
-        <button type="button" class="completeSchedule-btn">완료</button>
 
 
-    </div>
 
-    <div th:if="${scheduleId != null}">
-        <h1>수정 폼</h1>
-        <input type="hidden" id="scheduleId" th:value="${scheduleId}">
-        <input type="datetime-local" id="newStartAt" th:value="${scheduleStartAt}">
-        <input type="datetime-local" id="newEndAt" th:value="${scheduleEndAt}">
-        <input type="text" id="newContent" th:value="${scheduleContent}">
-        <button type="button" id="updateSchedule-btn">수정하기</button>
-    </div>
 
 
 </div>

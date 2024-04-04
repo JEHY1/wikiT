@@ -9,4 +9,5 @@ public class MoveRequest {
 
     private String memberEmail;
     private Long scheduleId;
+    private Long status;
 }

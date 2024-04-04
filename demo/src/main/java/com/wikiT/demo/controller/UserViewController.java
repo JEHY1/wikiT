@@ -5,6 +5,7 @@ import com.wikiT.demo.domain.Schedule;
 import com.wikiT.demo.dto.GroupButtonViewResponse;
 import com.wikiT.demo.dto.HomeViewRequest;
 import com.wikiT.demo.dto.InviteMessageViewResponse;
+import com.wikiT.demo.dto.ViewLiveScheduleResponse;
 import com.wikiT.demo.service.GroupService;
 import com.wikiT.demo.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,15 @@ public class UserViewController {
         model.addAttribute("messages", messages);
 
 
-        model.addAttribute("allSchedules", scheduleService.findMySchedules(principal.getName(), groupService.findByMember(principal.getName())));
+        List<ViewLiveScheduleResponse> allSchedules = scheduleService.findMySchedules(principal.getName(), groupService.findByMember(principal.getName()))
+                .stream().map(ViewLiveScheduleResponse::new)
+                .toList();
+
+        allSchedules.forEach(schedule -> {
+            schedule.submitGroupName(groupService.findGroupMakerByGroupId(schedule.getGroupId()).getGroupName());
+        });
+
+        model.addAttribute("allSchedules", allSchedules);
 
         model.addAttribute("scheduleId", request.getScheduleId());
 
@@ -63,6 +72,9 @@ public class UserViewController {
             model.addAttribute("scheduleContent", schedule.getContent());
         }
 
+        //
+        model.addAttribute("doneSchedules", scheduleService.findMyScheduleOthers(principal.getName(), groupService.findByMember(principal.getName())));
+        model.addAttribute("isViewAll", request.getStatus());
 
 
 

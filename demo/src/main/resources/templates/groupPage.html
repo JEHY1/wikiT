@@ -52,7 +52,7 @@
 
         .wrapper {
             display: grid;
-            grid-template-columns: 310px 1fr;
+            grid-template-columns: 310px 1fr 210px;
         }
 
 
@@ -241,6 +241,42 @@
             display: grid;
             grid-template-columns: 25px 255px;
         }
+
+        #scheduleView-btn{
+            cursor: pointer;
+            height: 43px;
+            margin-top: 10px;
+        }
+
+        #articleView-btn{
+            cursor: pointer;
+            height: 43px;
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+
+        #subMenuLayout{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        #subMenuLayout > :first-child{
+            text-align: right;
+        }
+
+        .smallItem{
+            height: 20px;
+            margin-top: 23px;
+            cursor: pointer;
+        }
+
+        #scheduleContentLayout{
+            display: grid;
+            grid-template-columns: 1fr minmax(600px, 9fr) 1fr;
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -283,7 +319,6 @@
                 </div>
             </div>
 
-
             <div class="otherGroups">
                 <i class="menu">그룹 목록</i>
                 <div th:each="group:${groups}">
@@ -305,89 +340,121 @@
             <div>
                 <div class="half">
                     <div class="half2">
-                        <h1 style="margin-top: 10px; margin-left: 20px;">글 목록</h1>
+                        <h1 id="articleView-btn" th:onclick="|location.href='/group/${groupId}?memberEmail=master'|">글 목록</h1>
                         <p th:if="!${memberSpace.equals('master')}" class="memberSpace" th:text="${memberSpace}"></p>
+                        <h1 th:if="${memberSpace.equals('master')}" id="scheduleView-btn" th:onclick="|location.href='/group/${groupId}?memberEmail=master&status=2'|">Schedules</h1>
                     </div>
 
                     <div class="rightBottom">
-                        <a th:if="${memberSpace.equals('master') || memberSpace.equals(inviterEmail)}" th:href="@{/newArticle?space={space}&groupId={groupId}(space=${memberSpace}, groupId=${groupId})}">글 등록</a>
+                        <a th:if="${(memberSpace.equals('master') || memberSpace.equals(inviterEmail)) && (status == 1 || status == null)}" th:href="@{/newArticle?space={space}&groupId={groupId}(space=${memberSpace}, groupId=${groupId})}">글 등록</a>
                     </div>
                 </div>
                 <hr>
 
-                <div th:each="article:${articles}" class="articleList">
-                    <hr>
-                    <h1 th:text="${article.title}" class="title"></h1>
-                    <p th:text="${article.content}" class="content"></p>
-                    <form action="/newArticle" method="get" class="articleView">
-                        <input type="hidden" name="space" th:value="${memberSpace}">
-                        <input type="hidden" name="groupId" th:value="${groupId}">
-                        <input type="hidden" name="articleId" th:value="${article.articleId}">
-                        <button type="submit" class="type1">자세히 보기</button>
-                    </form>
+
+
+                <div th:if="${status == 1 || status == null}">
+                    <div th:each="article:${articles}" class="articleList">
+                        <hr>
+                        <h1 th:text="${article.title}" class="title"></h1>
+                        <p th:text="${article.content}" class="content"></p>
+                        <form action="/newArticle" method="get" class="articleView">
+                            <input type="hidden" name="space" th:value="${memberSpace}">
+                            <input type="hidden" name="groupId" th:value="${groupId}">
+                            <input type="hidden" name="articleId" th:value="${article.articleId}">
+                            <button type="submit" class="type1">자세히 보기</button>
+                        </form>
+                    </div>
+                </div>
+
+
+                <div th:if="${status != 1 && status != null}" id="scheduleContentLayout">
+                    <div></div>
+                    <div style="margin-top: 100px">
+                        <div id="subMenuLayout">
+                            <h1 style="cursor: pointer;" th:if="${status == 2}" th:onclick="|location.href='/group/${groupId}?memberEmail=master&status=2'|">groupSchedule&nbsp;</h1>
+                            <p class="smallItem" th:if="${status == 2}" th:onclick="|location.href='/group/${groupId}?memberEmail=master&status=3'|">&nbsp;personal schedule</p>
+                            <p class=smallItem th:if="${status == 3}" th:onclick="|location.href='/group/${groupId}?memberEmail=master&status=2'|">groupSchedule&nbsp;</p>
+                            <h1 style="cursor: pointer;" th:if="${status == 3}" th:onclick="|location.href='/group/${groupId}?memberEmail=master&status=3'|">&nbsp;personal schedule</h1>
+                        </div>
+                        <hr>
+
+                        <div th:if="${status == 2}">
+                            <div th:each="groupSchedule:${groupSchedules}">
+                                <input type="hidden" class="groupScheduleIds" th:value="${groupSchedule.id}">
+                                <p th:if="${groupSchedule.startAt != null}" th:text="${#temporals.format(groupSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
+                                <p>~</p>
+                                <p th:if="${groupSchedule.endAt != null}" th:text="${#temporals.format(groupSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
+                                <p th:text="${groupSchedule.content}"></p>
+
+                                <button type="button" class="groupScheduleDelete-btn">삭제</button>
+                                <form th:action="'/group/' + ${groupId}" method="get">
+                                    <input type="hidden" name="memberEmail" th:value="${memberSpace}">
+                                    <input type="hidden" name="scheduleId" th:value="${groupSchedule.id}">
+                                    <input type="hidden" name="status" th:value="${status}">
+                                    <button type="submit">수정</button>
+                                </form>
+                                <button type="button" class="completeGroupSchedule-btn">완료</button>
+                            </div>
+                        </div>
+
+                        <div th:if="${status == 3}">
+                            <div th:each="personalSchedule : ${personalSchedules}">
+                                <input type="hidden" class="personalScheduleIds" th:value="${personalSchedule.id}">
+                                <p th:if="${personalSchedule.startAt != null}" th:text="${#temporals.format(personalSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
+                                <p>~</p>
+                                <p th:if="${personalSchedule.endAt != null}" th:text="${#temporals.format(personalSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
+                                <p th:text="${personalSchedule.content}"></p>
+
+
+                                <button type="button" class="personalScheduleDelete-btn">삭제</button>
+                                <form th:action="'/group/' + ${groupId}" method="get">
+                                    <input type="hidden" name="memberEmail" th:value="${memberSpace}">
+                                    <input type="hidden" name="scheduleId" th:value="${personalSchedule.id}">
+                                    <input type="hidden" name="status" th:value="${status}">
+                                    <button type="submit">수정</button>
+                                </form>
+                                <button type="button" class="completePersonalSchedule-btn">완료</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div></div>
+
+
+
+
+
+
 
                 </div>
 
             </div>
+        </div>
 
-
+        <div>
+            <input type="datetime-local" id="startAt" th:value="${scheduleStartAt}">
+            <input type="datetime-local" id="endAt" th:value="${scheduleEndAt}">
+            <input type="text" id="schedule-content" th:value="${scheduleContent}">
+            <input type="hidden" id="principalEmail" th:value="${inviterEmail}">
+            <div th:if="${scheduleId == null}">
+                <button type="button" id="private-schedule-submit-btn">개인</button>
+                <button type="button" id="group-schedule-submit-btn">group</button>
+            </div>
+            <div th:if="${scheduleId != null}">
+                <input type="hidden" id="scheduleId" th:value="${scheduleId}">
+                <button type="button" id="updateSchedule-btn2">수정</button>
+            </div>
         </div>
     </div>
 
     <div>
-        <input type="datetime-local" id="startAt" th:value="${scheduleStartAt}">
-        <input type="datetime-local" id="endAt" th:value="${scheduleEndAt}">
-        <input type="text" id="schedule-content" th:value="${scheduleContent}">
-        <input type="hidden" id="principalEmail" th:value="${inviterEmail}">
-        <div th:if="${scheduleId == null}">
-            <button type="button" id="private-schedule-submit-btn">개인</button>
-            <button type="button" id="group-schedule-submit-btn">group</button>
-        </div>
-        <div th:if="${scheduleId != null}">
-            <input type="hidden" id="scheduleId" th:value="${scheduleId}">
-            <button type="button" id="updateSchedule-btn2">수정</button>
-        </div>
+
 
     </div>
 
-    <div>
-        <h1>groupSchedule</h1>
-        <div th:each="groupSchedule:${groupSchedules}">
-            <input type="hidden" class="groupScheduleIds" th:value="${groupSchedule.id}">
-            <p th:if="${groupSchedule.startAt != null}" th:text="${#temporals.format(groupSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
-            <p>~</p>
-            <p th:if="${groupSchedule.endAt != null}" th:text="${#temporals.format(groupSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
-            <p th:text="${groupSchedule.content}"></p>
 
-            <button type="button" class="groupScheduleDelete-btn">삭제</button>
-            <form th:action="'/group/' + ${groupId}" method="get">
-                <input type="hidden" name="memberEmail" th:value="${memberSpace}">
-                <input type="hidden" name="scheduleId" th:value="${groupSchedule.id}">
-                <button type="submit">수정</button>
-            </form>
-            <button type="button" class="completeGroupSchedule-btn">완료</button>
-
-        </div>
-
-        <h1>personal schedule</h1>
-        <div th:each="personalSchedule : ${personalSchedules}">
-            <input type="hidden" class="personalScheduleIds" th:value="${personalSchedule.id}">
-            <p th:if="${personalSchedule.startAt != null}" th:text="${#temporals.format(personalSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
-            <p>~</p>
-            <p th:if="${personalSchedule.endAt != null}" th:text="${#temporals.format(personalSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
-            <p th:text="${personalSchedule.content}"></p>
-
-
-            <button type="button" class="personalScheduleDelete-btn">삭제</button>
-            <form th:action="'/group/' + ${groupId}" method="get">
-                <input type="hidden" name="memberEmail" th:value="${memberSpace}">
-                <input type="hidden" name="scheduleId" th:value="${personalSchedule.id}">
-                <button type="submit">수정</button>
-            </form>
-            <button type="button" class="completePersonalSchedule-btn">완료</button>
-        </div>
-
-    </div>
 
 
 

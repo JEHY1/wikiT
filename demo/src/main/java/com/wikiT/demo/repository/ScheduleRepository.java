@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     Optional<List<Schedule>> findByGroupIdAndSpace(Long groupId, String space);
-
+    Optional<List<Schedule>> findByGroupIdAndSpaceAndStatus(Long groupID, String space, String status);
+    Optional<List<Schedule>> findBySpaceAndStatus(String space, String status);
     Optional<List<Schedule>> findBySpace(String space);
 }

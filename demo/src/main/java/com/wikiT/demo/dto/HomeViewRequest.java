@@ -8,4 +8,5 @@ import lombok.Setter;
 public class HomeViewRequest {
 
     private Long scheduleId;
+    private Long status;
 }

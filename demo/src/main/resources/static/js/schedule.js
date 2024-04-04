@@ -151,12 +151,23 @@ if(updateScheduleButton){
     })
     function success(){
         alert('스케줄 수정 성공');
-        location.replace('/home');
+        if(document.getElementById('isViewAll').value == 1){
+            location.replace('/home?status=1');
+        }
+        else{
+            location.replace('/home');
+        }
+
     }
 
     function fail(){
         alert('스케줄 수정 실패');
-        location.replace('/home');
+        if(document.getElementById('isViewAll').value == 1){
+            location.replace('/home?status=1');
+        }
+        else{
+            location.replace('/home');
+        }
     }
 }
 
@@ -176,12 +187,22 @@ if(completeScheduleButtons){
 
     function success(){
         alert('스케줄 수정 성공');
-        location.replace('/home');
+        if(document.getElementById('isViewAll').value == 1){
+            location.replace('/home?status=1');
+        }
+        else{
+            location.replace('/home');
+        }
     }
 
     function fail(){
         alert('스케줄 수정 실패');
-        location.replace('/home');
+        if(document.getElementById('isViewAll').value == 1){
+            location.replace('/home?status=1');
+        }
+        else{
+            location.replace('/home');
+        }
     }
 }
 
@@ -258,6 +279,32 @@ if(completePersonalScheduleButton){
         alert('스케줄 수정 실패');
         location.replace('/group/' + document.getElementById('groupId').value + "?memberEmail=" + document.getElementById('memberSpace').value);
     }
+}
+
+const deleteDoneScheduleButtons = document.getElementsByClassName('deleteDoneSchedule-btn');
+
+if(deleteDoneScheduleButtons){
+    let scheduleIds = Array.from(document.getElementsByClassName('doneScheduleIds'));
+
+    Array.from(deleteDoneScheduleButtons).forEach((button, index) => {
+        button.addEventListener('click', () => {
+            let body = JSON.stringify({
+                scheduleId: scheduleIds[index].value
+            });
+
+            function success(){
+                alert('삭제 성공');
+                location.replace('/home?status=1');
+            }
+
+            function fail(){
+                alert('삭제  실패');
+                location.replace('/home?status=1');
+            }
+
+            httpRequest('DELETE', `/api/schedule`, body, success, fail);
+        });
+    });
 }
 
 
