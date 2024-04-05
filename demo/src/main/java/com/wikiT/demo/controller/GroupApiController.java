@@ -10,6 +10,7 @@ import com.wikiT.demo.dto.GroupRemoveRequest;
 import com.wikiT.demo.dto.InviteRequest;
 import com.wikiT.demo.service.ArticleService;
 import com.wikiT.demo.service.GroupService;
+import com.wikiT.demo.service.ScheduleService;
 import com.wikiT.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ public class GroupApiController {
     private final GroupService groupService;
     private final UserService userService;
     private final ArticleService articleService;
+    private final ScheduleService scheduleService;
 
     @PostMapping("/api/group")
     public ResponseEntity<GroupMaker> submitGroup(@RequestBody AddGroupRequest request){
@@ -57,7 +59,10 @@ public class GroupApiController {
     public ResponseEntity<Void> exit(@RequestBody GroupRemoveRequest request){
 
         articleService.deleteArticles(articleService.findByGroupId(request.getGroupId()));
+        scheduleService.deleteSchedules(scheduleService.findByGroupId(request.getGroupId()));
         groupService.groupRemove(request.getGroupId());
+
+
         return ResponseEntity.ok()
                 .build();
     }

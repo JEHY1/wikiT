@@ -11,4 +11,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     Optional<List<Schedule>> findByGroupIdAndSpaceAndStatus(Long groupID, String space, String status);
     Optional<List<Schedule>> findBySpaceAndStatus(String space, String status);
     Optional<List<Schedule>> findBySpace(String space);
+    Optional<List<Schedule>> findByGroupId(Long groupId);
 }

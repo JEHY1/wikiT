@@ -24,10 +24,34 @@ public class ScheduleService {
         return scheduleRepository.save(request.toEntity());
     }
 
-    public List<Schedule> findByGroupIdAndSpace(Long groupId, String space){
+    public List<Schedule> findByGroupId(Long groupId){
+        return scheduleRepository.findByGroupId(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("not found schedules"));
+    }
 
-        return scheduleRepository.findByGroupIdAndSpace(groupId, space)
+    public List<Schedule> findByGroupIdAndSpaceAndStatus(Long groupId, String space, String status){
+
+        List<Schedule> schedules = scheduleRepository.findByGroupIdAndSpaceAndStatus(groupId, space, status)
                 .orElseThrow(() -> new IllegalArgumentException("not found schedule"));
+
+        schedules.sort((o1, o2) -> {
+            if(o1.getEndAt() != null && o2.getEndAt() != null){
+                if(o1.getEndAt().isAfter(o2.getEndAt())){
+                    return 1;
+                }
+                else{
+                    return -1;
+                }
+            }
+            else if(o1.getEndAt() == null && o2.getEndAt() != null){
+                return 1;
+            }
+            else{
+                return -1;
+            }
+        });
+
+        return schedules;
     }
 
     @Transactional
@@ -135,6 +159,12 @@ public class ScheduleService {
 
         schedule.update("complete");
         return schedule;
+    }
+
+    public void deleteSchedules(List<Schedule> schedules){
+
+        schedules.forEach(schedule -> scheduleRepository.delete(schedule));
+
     }
 
 }

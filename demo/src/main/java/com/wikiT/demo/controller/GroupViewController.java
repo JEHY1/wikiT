@@ -56,10 +56,8 @@ public class GroupViewController {
                 .toList();
         model.addAttribute("groups", groups);
 
-        model.addAttribute("groupSchedules", scheduleServic.findByGroupIdAndSpace(groupId, "master"));
-        model.addAttribute("personalSchedules", scheduleServic.findByGroupIdAndSpace(groupId, principal.getName()));
-
-        List<Schedule> schedules = scheduleServic.findByGroupIdAndSpace(groupId, "master");
+        model.addAttribute("groupSchedules", scheduleServic.findByGroupIdAndSpaceAndStatus(groupId, "master", "run"));
+        model.addAttribute("personalSchedules", scheduleServic.findByGroupIdAndSpaceAndStatus(groupId, principal.getName(), "run"));
 
         model.addAttribute("scheduleId", request.getScheduleId());
         if(request.getScheduleId() != null) {

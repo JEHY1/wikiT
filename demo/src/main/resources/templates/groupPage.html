@@ -275,7 +275,33 @@
             grid-template-columns: 1fr minmax(600px, 9fr) 1fr;
         }
 
+        .groupScheduleLayout{
+            border: 1px solid gray;
+            width: 500px;
+            display: inline-block;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
 
+        .personalScheduleLayout{
+
+            border: 1px solid gray;
+            width: 500px;
+            display: inline-block;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .dateButtonLayout{
+            display: grid;
+            grid-template-columns: 300px 1fr;
+        }
+
+        button{
+            border: none;
+            border-radius: 5px;
+            padding: 5px 2px;
+        }
 
     </style>
 </head>
@@ -379,55 +405,70 @@
                         </div>
                         <hr>
 
-                        <div th:if="${status == 2}">
+                        <div th:if="${status == 2}" style="text-align: center;">
                             <div th:each="groupSchedule:${groupSchedules}">
-                                <input type="hidden" class="groupScheduleIds" th:value="${groupSchedule.id}">
-                                <p th:if="${groupSchedule.startAt != null}" th:text="${#temporals.format(groupSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
-                                <p>~</p>
-                                <p th:if="${groupSchedule.endAt != null}" th:text="${#temporals.format(groupSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
-                                <p th:text="${groupSchedule.content}"></p>
+                                <div class="groupScheduleLayout">
+                                    <div class="dateButtonLayout">
+                                        <div>
+                                            <p style="display: inline-block" th:if="${groupSchedule.startAt != null}" th:text="${#temporals.format(groupSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
+                                            <p style="display: inline-block" th:if="${groupSchedule.startAt != null || groupSchedule.endAt != null}">~</p>
+                                            <p style="display: inline-block" th:if="${groupSchedule.endAt != null}" th:text="${#temporals.format(groupSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
+                                        </div>
 
-                                <button type="button" class="groupScheduleDelete-btn">삭제</button>
-                                <form th:action="'/group/' + ${groupId}" method="get">
-                                    <input type="hidden" name="memberEmail" th:value="${memberSpace}">
-                                    <input type="hidden" name="scheduleId" th:value="${groupSchedule.id}">
-                                    <input type="hidden" name="status" th:value="${status}">
-                                    <button type="submit">수정</button>
-                                </form>
-                                <button type="button" class="completeGroupSchedule-btn">완료</button>
+                                        <div style="text-align: right;">
+                                            <input type="hidden" class="groupScheduleIds" th:value="${groupSchedule.id}">
+                                            <button type="button" class="groupScheduleDelete-btn">삭제</button>
+                                            <form style="display: inline-block" th:action="'/group/' + ${groupId}" method="get">
+                                                <input type="hidden" name="memberEmail" th:value="${memberSpace}">
+                                                <input type="hidden" name="scheduleId" th:value="${groupSchedule.id}">
+                                                <input type="hidden" name="status" th:value="${status}">
+                                                <button type="submit">수정</button>
+                                            </form>
+                                            <button type="button" class="completeGroupSchedule-btn" style="margin-right: 5px;">완료</button>
+                                        </div>
+                                    </div>
+
+                                    <p th:text="${groupSchedule.content}"></p>
+
+                                </div>
+                                <div></div>
                             </div>
+
                         </div>
 
-                        <div th:if="${status == 3}">
+                        <div th:if="${status == 3}" style="text-align: center">
                             <div th:each="personalSchedule : ${personalSchedules}">
-                                <input type="hidden" class="personalScheduleIds" th:value="${personalSchedule.id}">
-                                <p th:if="${personalSchedule.startAt != null}" th:text="${#temporals.format(personalSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
-                                <p>~</p>
-                                <p th:if="${personalSchedule.endAt != null}" th:text="${#temporals.format(personalSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
-                                <p th:text="${personalSchedule.content}"></p>
+                                <div class="personalScheduleLayout">
+                                    <div class="dateButtonLayout">
+                                        <div>
+                                            <p style="display: inline-block" th:if="${personalSchedule.startAt != null}" th:text="${#temporals.format(personalSchedule.startAt, 'yyyy-MM-dd HH:mm')}"></p>
+                                            <p style="display: inline-block" th:if="${personalSchedule.startAt != null || personalSchedule.endAt != null}">~</p>
+                                            <p style="display: inline-block" th:if="${personalSchedule.endAt != null}" th:text="${#temporals.format(personalSchedule.endAt, 'yyyy-MM-dd HH:mm')}"></p>
+                                        </div>
 
+                                        <div style="text-align: right;">
+                                            <input type="hidden" class="personalScheduleIds" th:value="${personalSchedule.id}">
+                                            <button type="button" class="personalScheduleDelete-btn">삭제</button>
+                                            <form style="display: inline-block" th:action="'/group/' + ${groupId}" method="get">
+                                                <input type="hidden" name="memberEmail" th:value="${memberSpace}">
+                                                <input type="hidden" name="scheduleId" th:value="${personalSchedule.id}">
+                                                <input type="hidden" name="status" th:value="${status}">
+                                                <button type="submit">수정</button>
+                                            </form>
+                                            <button type="button" class="completePersonalSchedule-btn" style="margin-right: 5px;">완료</button>
+                                        </div>
+                                    </div>
+                                    <p th:text="${personalSchedule.content}"></p>
 
-                                <button type="button" class="personalScheduleDelete-btn">삭제</button>
-                                <form th:action="'/group/' + ${groupId}" method="get">
-                                    <input type="hidden" name="memberEmail" th:value="${memberSpace}">
-                                    <input type="hidden" name="scheduleId" th:value="${personalSchedule.id}">
-                                    <input type="hidden" name="status" th:value="${status}">
-                                    <button type="submit">수정</button>
-                                </form>
-                                <button type="button" class="completePersonalSchedule-btn">완료</button>
+                                </div>
+                                <div></div>
                             </div>
+                            <div></div>
                         </div>
 
                     </div>
 
                     <div></div>
-
-
-
-
-
-
-
                 </div>
 
             </div>
