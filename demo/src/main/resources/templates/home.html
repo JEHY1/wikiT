@@ -139,10 +139,8 @@
 
         #schedulesLayout{
             display: grid;
-            grid-template-columns: 1fr minmax(400px,10fr) 1fr;
+            grid-template-columns: 1fr minmax(502px,10fr) 1fr;
             text-align: center;
-
-
         }
 
         .liveSchedulesLayout{
@@ -309,8 +307,8 @@
         </div>
 
         <div>
-            <div th:if="${scheduleId != null}">
-                <h1>수정 폼</h1>
+            <div th:if="${scheduleId != null}" style="margin-top: 100px;">
+                <h1>Schedule</h1>
                 <input type="hidden" id="scheduleId" th:value="${scheduleId}">
                 <input type="datetime-local" id="newStartAt" th:value="${scheduleStartAt}">
                 <input type="datetime-local" id="newEndAt" th:value="${scheduleEndAt}">
