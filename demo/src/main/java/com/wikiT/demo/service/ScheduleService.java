@@ -29,6 +29,11 @@ public class ScheduleService {
                 .orElseThrow(() -> new IllegalArgumentException("not found schedules"));
     }
 
+    public List<Schedule> findByGroupIdAndSpace(Long groupId, String space){
+        return scheduleRepository.findByGroupIdAndSpace(groupId, space)
+                .orElseThrow(() -> new IllegalArgumentException("not found schedule"));
+    }
+
     public List<Schedule> findByGroupIdAndSpaceAndStatus(Long groupId, String space, String status){
 
         List<Schedule> schedules = scheduleRepository.findByGroupIdAndSpaceAndStatus(groupId, space, status)

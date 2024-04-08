@@ -91,10 +91,10 @@ public class GroupViewController {
     @PostMapping("/api/expel")
     public String expel(MemberExpelRequest request){
 
-        groupService.expel(request);
         List<Article> articles = articleService.findBySpaceAndGroupId(request.getUserEmail(), request.getGroupId());
         articleService.deleteArticles(articles);
-
+        scheduleServic.deleteSchedules(scheduleServic.findByGroupIdAndSpace(request.getGroupId(), request.getUserEmail()));
+        groupService.expel(request);
         return "redirect:/group/" + request.getGroupId() + "?memberEmail=master";
     }
 

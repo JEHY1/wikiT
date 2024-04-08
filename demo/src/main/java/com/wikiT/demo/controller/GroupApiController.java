@@ -48,9 +48,10 @@ public class GroupApiController {
     @DeleteMapping("/api/exit")
     public ResponseEntity<Void> exit(@RequestBody ExitRequest request, Principal principal){
 
-        groupService.exit(request.getGroupId(), principal.getName());
         List<Article> articles = articleService.findBySpaceAndGroupId(principal.getName(), request.getGroupId());
         articleService.deleteArticles(articles);
+        scheduleService.deleteSchedules(scheduleService.findByGroupIdAndSpace(request.getGroupId(), principal.getName()));
+        groupService.exit(request.getGroupId(), principal.getName());
         return ResponseEntity.ok()
                 .build();
     }

@@ -124,14 +124,12 @@ public class GroupService {
         List<Group> groups = groupRepository.findByGroupMakerId(groupMakerId)
                 .orElseThrow(() -> new IllegalArgumentException("not found groupId"));
 
-        System.err.println("groupSize() : " + groups.size());
 
         if(groups.size() == 1){
             System.err.println("remove run");
             System.err.println("groupMakerId : " + groups.get(0).getGroupMakerId());
             groupMakerRepository.deleteById(groupMakerId);
             groupRepository.delete(groups.get(0));
-
         }
     }
 

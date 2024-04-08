@@ -188,6 +188,22 @@
             padding: 5px 2px;
             margin-right: 5px;
         }
+
+        #updateSchedule-btn{
+            border: none;
+            border-radius: 5px;
+            padding: 5px 2px;
+        }
+
+        #newContent{
+            margin-top: 10px;
+            margin-bottom: 5px;
+            width: 194px;
+            height: 25px;
+            border: 1px solid gray;
+            border-radius: 5px;
+        }
+
     </style>
 
     <input type="hidden" id="isViewAll" th:value="${isViewAll}">
@@ -307,7 +323,7 @@
         </div>
 
         <div>
-            <div th:if="${scheduleId != null}" style="margin-top: 100px;">
+            <div th:if="${scheduleId != null}" style="margin-top: 100px; text-align: center;">
                 <h1>Schedule</h1>
                 <input type="hidden" id="scheduleId" th:value="${scheduleId}">
                 <input type="datetime-local" id="newStartAt" th:value="${scheduleStartAt}">
